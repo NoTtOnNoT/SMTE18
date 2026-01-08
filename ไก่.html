@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="th">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chick VOTE - Professional Edition</title>
+
+        <link rel="stylesheet" href="ไก่มีน.css">
+
+        <script
+            src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+        <script
+            src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    </head>
+    <body>
+
+        <h1>🐔 Chick VOTE</h1>
+
+        <div class="vote-grid" id="vote-grid"></div>
+
+        <button class="btn-result" onclick="openModal()">🏆 Leaderboard</button>
+
+        <div id="resultModal" class="modal">
+            <div class="modal-content">
+                <h2 class="modal-title">ใครไก่สุด🐔</h2>
+                <div id="ranking-list"></div>
+                <button class="close-btn" onclick="closeModal()">CLOSE</button>
+            </div>
+        </div>
+
+        <script>
+        // --- Firebase Configuration ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyAb-68LOJNRhVmZeCjCGvfg-lZdt-LCU0E",
+            databaseURL: "https://smte-6550d-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "smte-6550d",
+            appId: "1:992310898236:web:a05a1711cfdf371400dd39",
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // ข้อมูลผู้สมัคร (แก้ไขลิงก์รูปภาพตรงนี้)
+        const candidates = [
+            { id: 1, name: "ไก่มีน", img: "ไก่มีน.jpg" },
+            { id: 2, name: "ไก่ธาม", img: "ไก่ธาม.jpg" },
+            { id: 3, name: "ไก่โน่", img: "ไก่โน่.jpg" },
+            { id: 4, name: "ไก่เท็น", img: "ไก่เท็น.jpg" },
+            { id: 5, name: "ไก่ชัย", img: "ไก่ชัย.jpg" },
+            { id: 6, name: "ไก่โต", img: "ไก่โต.jpg" }
+        ];
+
+        let currentScores = {};
+
+        // ระบบ Real-time Listener
+        db.ref('votes').on('value', (snapshot) => {
+            currentScores = snapshot.val() || {};
+            if (document.getElementById('resultModal').style.display === "flex") {
+                updateRankingUI(); 
+            }
+        });
+
+        function addVote(id) {
+            confetti({
+                particleCount: 120, spread: 70, origin: { y: 0.7 },
+                colors: ['#ff416c', '#ff4b2b', '#ffffff', '#ffcc00']
+            });
+            new Audio('https://www.soundjay.com/buttons/button-4.mp3').play();
+            db.ref('votes/' + id).transaction(val => (val || 0) + 1);
+            if (window.navigator.vibrate) window.navigator.vibrate(50);
+        }
+
+        function updateRankingUI() {
+            const rankingList = document.getElementById('ranking-list');
+            const sorted = candidates.map(c => ({
+                ...c, votes: currentScores[c.id] || 0
+            })).sort((a, b) => b.votes - a.votes);
+
+            rankingList.innerHTML = '';
+            sorted.forEach((person, index) => {
+                const item = document.createElement('div');
+                item.className = 'ranking-item';
+                item.style.animationDelay = (index * 0.1) + 's';
+                item.innerHTML = `
+                    <div class="rank-info">
+                        <span class="rank-number">${index+1}</span>
+                        <img src="${person.img}" class="rank-img">
+                        <span>${person.name}</span>
+                    </div>
+                    <strong class="score-value">${person.votes.toLocaleString()}</strong>
+                `;
+                rankingList.appendChild(item);
+            });
+        }
+
+        function openModal() {
+            updateRankingUI(); 
+            document.getElementById('resultModal').style.display = "flex";
+        }
+
+        function closeModal() { document.getElementById('resultModal').style.display = "none"; }
+
+        function initGrid() {
+            const grid = document.getElementById('vote-grid');
+            candidates.forEach(person => {
+                grid.innerHTML += `
+                    <div class="vote-card">
+                        <img src="${person.img}" class="profile-img">
+                        <span class="name-label">${person.name}</span>
+                        <button class="btn-vote" onclick="addVote(${person.id})">VOTE</button>
+                    </div>
+                `;
+            });
+        }
+
+        initGrid();
+    </script>
+    </body>
+</html>
