@@ -127,22 +127,44 @@ function updateRankingUI() {
     }).join('');
 }
 
-// ควบคุม Modal
+// ฟังก์ชันกลางสำหรับล็อก/ปลดล็อกจอ
+function toggleBodyLock(isLocked) {
+    if (isLocked) {
+        document.body.classList.add('modal-open');
+    } else {
+        document.body.classList.remove('modal-open');
+    }
+}
+
+// แก้ไขฟังก์ชันเปิด Modal สมาชิก
 function openModal(data) {
     document.getElementById('m-img').src = data.img;
     document.getElementById('m-fullname').innerText = data.fullname;
     document.getElementById('m-nickname-no').innerText = `${data.nickname} | ${data.no}`;
     document.getElementById('m-ig').href = "https://instagram.com/" + data.ig;
-    document.getElementById('modalOverlay').classList.add('open');
-}
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
 
+    const modal = document.getElementById('modalOverlay');
+    modal.classList.add('open');
+    toggleBodyLock(true);
+}
+
+function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    toggleBodyLock(false);
+}
+
+// แก้ไขฟังก์ชัน Leaderboard
 function openVoteModal() {
     updateRankingUI();
-    document.getElementById('voteResultModal').style.display = "flex";
+    const voteModal = document.getElementById('voteResultModal');
+    voteModal.classList.add('open'); // ใช้ class open แทนการแก้ .style.display
+    toggleBodyLock(true);
 }
+
 function closeVoteModal() {
-    document.getElementById('voteResultModal').style.display = "none";
+    const voteModal = document.getElementById('voteResultModal');
+    voteModal.classList.remove('open');
+    toggleBodyLock(false);
 }
 
 // สร้าง Universe

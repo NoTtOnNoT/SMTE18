@@ -62,8 +62,9 @@
                 onclick="openVoteModal()">🏆 Leaderboard</button>
         </div>
 
-        <div id="voteResultModal" class="modal-overlay">
-            <div class="modal-content" style="max-width: 400px; width: 90%;">
+        <div id="voteResultModal" class="modal-overlay"
+            onclick="closeVoteModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
                 <span class="close-modal"
                     onclick="closeVoteModal()">&times;</span>
                 <h2 class="modal-name">ใครไก่สุด🐔</h2>
