@@ -3,9 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Chick VOTE - Professional Edition</title>
-
-        <link rel="stylesheet" href="ไก่มีน.css">
+        <title>Class Universe</title>
+        <link rel="stylesheet" href="style.css">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500&display=swap"
+            rel="stylesheet">
 
         <script
             src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
@@ -16,107 +18,62 @@
     </head>
     <body>
 
-        <h1>🐔 Chick VOTE</h1>
-
-        <div class="vote-grid" id="vote-grid"></div>
-
-        <button class="btn-result" onclick="openModal()">🏆 Leaderboard</button>
-
-        <div id="resultModal" class="modal">
-            <div class="modal-content">
-                <h2 class="modal-title">ใครไก่สุด🐔</h2>
-                <div id="ranking-list"></div>
-                <button class="close-btn" onclick="closeModal()">CLOSE</button>
+        <div id="home-page" class="page active">
+            <h1>SMTE 4/1</h1>
+            <p class="sub-text">ไก่</p>
+            <div class="btn-container">
+                <button class="nav-btn"
+                    onclick="goToPage('member-page')">สมาชิก</button>
+                <button class="nav-btn"
+                    onclick="goToPage('vote-page')">ใครไก่?</button>
             </div>
         </div>
 
-        <script>
-        // --- Firebase Configuration ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyAb-68LOJNRhVmZeCjCGvfg-lZdt-LCU0E",
-            databaseURL: "https://smte-6550d-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "smte-6550d",
-            appId: "1:992310898236:web:a05a1711cfdf371400dd39",
-        };
-        
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+        <div id="member-page" class="page">
+            <button class="back-btn" onclick="goToPage('home-page')">←
+                กลับหน้าหลัก</button>
+            <div class="universe-wrapper" id="universe">
+                <div class="teacher" id="teacher-btn">
+                    <img src="std0.jpeg" alt="Teacher">
+                </div>
+            </div>
+        </div>
 
-        // ข้อมูลผู้สมัคร (แก้ไขลิงก์รูปภาพตรงนี้)
-        const candidates = [
-            { id: 1, name: "ไก่มีน", img: "ไก่มีน.jpg" },
-            { id: 2, name: "ไก่ธาม", img: "ไก่ธาม.jpg" },
-            { id: 3, name: "ไก่โน่", img: "ไก่โน่.jpg" },
-            { id: 4, name: "ไก่เท็น", img: "ไก่เท็น.jpg" },
-            { id: 5, name: "ไก่ชัย", img: "ไก่ชัย.jpg" },
-            { id: 6, name: "ไก่โต", img: "ไก่โต.jpg" },
-            { id: 7, name: "จิรกฤต หมกแดง", img: "ครูกฤต.jpg" }
-        ];
+        <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+                <img src id="m-img" class="modal-img">
+                <h2 id="m-fullname" class="modal-name"></h2>
+                <p id="m-nickname-no" class="modal-sub"></p>
+                <a href="#" id="m-ig" target="_blank"
+                    class="ig-btn">Instagram</a>
+            </div>
+        </div>
 
-        let currentScores = {};
+        <div id="vote-page" class="page">
+            <button class="back-btn" onclick="goToPage('home-page')">←
+                กลับหน้าหลัก</button>
+            <h1 style="margin-top: 60px;">🐔 Chick VOTE</h1>
+            <p class="sub-text">KFC</p>
 
-        // ระบบ Real-time Listener
-        db.ref('votes').on('value', (snapshot) => {
-            currentScores = snapshot.val() || {};
-            if (document.getElementById('resultModal').style.display === "flex") {
-                updateRankingUI(); 
-            }
-        });
+            <div class="vote-grid" id="vote-grid"></div>
 
-        function addVote(id) {
-            confetti({
-                particleCount: 120, spread: 70, origin: { y: 0.7 },
-                colors: ['#ff416c', '#ff4b2b', '#ffffff', '#ffcc00']
-            });
-            new Audio('https://pixabay.com/th/sound-effects/chicken-noise-196746/').play();
-            db.ref('votes/' + id).transaction(val => (val || 0) + 1);
-            if (window.navigator.vibrate) window.navigator.vibrate(50);
-        }
+            <button class="nav-btn btn-result" style="margin-top: 20px;"
+                onclick="openVoteModal()">🏆 Leaderboard</button>
+        </div>
 
-        function updateRankingUI() {
-            const rankingList = document.getElementById('ranking-list');
-            const sorted = candidates.map(c => ({
-                ...c, votes: currentScores[c.id] || 0
-            })).sort((a, b) => b.votes - a.votes);
+        <div id="voteResultModal" class="modal-overlay">
+            <div class="modal-content" style="max-width: 400px; width: 90%;">
+                <span class="close-modal"
+                    onclick="closeVoteModal()">&times;</span>
+                <h2 class="modal-name">ใครไก่สุด🐔</h2>
+                <div id="ranking-list"
+                    style="max-height: 50vh; overflow-y: auto;"></div>
+                <button class="nav-btn" style="margin-top:15px; width: 100%;"
+                    onclick="closeVoteModal()">CLOSE</button>
+            </div>
+        </div>
 
-            rankingList.innerHTML = '';
-            sorted.forEach((person, index) => {
-                const item = document.createElement('div');
-                item.className = 'ranking-item';
-                item.style.animationDelay = (index * 0.1) + 's';
-                item.innerHTML = `
-                    <div class="rank-info">
-                        <span class="rank-number">${index+1}</span>
-                        <img src="${person.img}" class="rank-img">
-                        <span>${person.name}</span>
-                    </div>
-                    <strong class="score-value">${person.votes.toLocaleString()}</strong>
-                `;
-                rankingList.appendChild(item);
-            });
-        }
-
-        function openModal() {
-            updateRankingUI(); 
-            document.getElementById('resultModal').style.display = "flex";
-        }
-
-        function closeModal() { document.getElementById('resultModal').style.display = "none"; }
-
-        function initGrid() {
-            const grid = document.getElementById('vote-grid');
-            candidates.forEach(person => {
-                grid.innerHTML += `
-                    <div class="vote-card">
-                        <img src="${person.img}" class="profile-img">
-                        <span class="name-label">${person.name}</span>
-                        <button class="btn-vote" onclick="addVote(${person.id})">VOTE</button>
-                    </div>
-                `;
-            });
-        }
-
-        initGrid();
-    </script>
+        <script src="script.js"></script>
     </body>
 </html>
