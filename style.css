@@ -249,16 +249,9 @@ h1 {
 }
 
 #member-page {
-    display: flex;
+    background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
     justify-content: center;
-    /* จัดกลางแนวนอน */
-    align-items: center;
-    /* จัดกลางแนวตั้ง */
-    min-height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    position: relative;
-    background: #020617;
+    /* จัดให้อยู่กลางแนวตั้ง */
 }
 
 .star-field {
