@@ -1,8 +1,12 @@
 :root {
-    --bg-dark: #0f172a;
+    --bg-dark: #020617;
     --primary-btn: #6366f1;
     --accent: #fbbf24;
-    --modal-bg: rgba(15, 23, 42, 0.98);
+    --modal-bg: rgba(15, 23, 42, 0.95);
+    --vote-red: linear-gradient(135deg, #ff416c, #ff4b2b);
+    --neon-blue: #38bdf8;
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.1);
 }
 
 * {
@@ -22,12 +26,23 @@ body {
     position: relative;
     /* ยอมให้เลื่อนขึ้นลงได้ปกติ */
     overflow-y: auto;
+    background-color: var(--bg-dark);
+    /* พื้นหลังแบบลุ่มลึก */
+    background-image:
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(251, 191, 36, 0.1) 0px, transparent 50%);
 }
 
 * {
     box-sizing: border-box;
     /* ป้องกันไม่ให้ Element ใดๆ ทะลุขอบจอออกไปด้านข้าง */
     max-width: 100vw;
+}
+
+/* เพิ่มความลื่นไหลในการเลื่อนหน้าจอ */
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
@@ -39,6 +54,9 @@ body {
     overflow-x: hidden;
     min-height: 100vh;
     width: 100vw;
+    background-image:
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(251, 191, 36, 0.1) 0px, transparent 50%);
 }
 
 body.modal-open {
@@ -84,6 +102,28 @@ body.modal-open {
     pointer-events: none;
 }
 
+/* จัดการเนื้อหาหน้าแรกให้ดูเด่น */
+.home-content {
+    position: relative;
+    z-index: 2;
+    /* ให้อยู่เหนือแสง Glow และ Star Field */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.main-title {
+    font-size: clamp(3rem, 15vw, 6rem);
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+    background: linear-gradient(to bottom, #ffffff 20%, #6366f1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.4));
+    letter-spacing: -2px;
+}
+
 h1 {
     /* clamp ช่วยให้ตัวหนังสือใหญ่ในคอม และเล็กลงในมือถืออัตโนมัติ */
     font-size: clamp(2rem, 10vw, 4.5rem);
@@ -97,11 +137,12 @@ h1 {
 }
 
 .sub-text {
-    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    font-size: 1.2rem;
     color: #94a3b8;
     margin-bottom: 3rem;
-    text-align: center;
-    animation: fadeInUp 1s ease-out;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.8;
 }
 
 .btn-container {
@@ -121,44 +162,193 @@ h1 {
 }
 
 .nav-btn {
+    position: relative;
+    /* เพื่อรองรับลูกเล่นแสงวิ่ง */
+    overflow: hidden;
+    /* ป้องกันแสงวิ่งทะลุขอบปุ่ม */
     padding: clamp(12px, 4vh, 20px);
     font-size: clamp(0.85rem, 2.5vw, 1.1rem);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     color: white;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    animation: fadeInUp 1.2s ease-out;
+
+    /* อนิเมชั่นเงาแบบนุ่มนวลตลอดเวลา */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2),
+        0 0 0 rgba(99, 102, 241, 0);
+
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    animation: fadeInUp 1.2s ease-out, buttonFloat 3s infinite ease-in-out;
+}
+
+/* เอฟเฟกต์แสงวิ่งพาดผ่านปุ่ม (Shine Effect) */
+.nav-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent);
+    transition: 0.6s;
 }
 
 .nav-btn:hover {
-    background: rgba(99, 102, 241, 0.2);
-    border-color: var(--primary-btn);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+    background: rgba(99, 102, 241, 0.25);
+    border-color: rgba(165, 180, 252, 0.5);
+    transform: translateY(-8px) scale(1.02);
+    /* เงาเรืองแสงตอน Hover ที่ดูอลังการ */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(99, 102, 241, 0.4);
+    color: #fff;
+}
+
+/* เมื่อ Hover ให้แสงวิ่งผ่าน */
+.nav-btn:hover::before {
+    left: 100%;
+}
+
+.nav-btn:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+/* อนิเมชั่นปุ่มลอยขึ้นลงเบาๆ ให้ดูมีชีวิต */
+@keyframes buttonFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* อนิเมชั่นตอนเปิดหน้า (เนียนขึ้น) */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+        filter: blur(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
 }
 
 #member-page {
-    background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+    display: flex;
     justify-content: center;
-    /* จัดให้อยู่กลางแนวตั้ง */
+    /* จัดกลางแนวนอน */
+    align-items: center;
+    /* จัดกลางแนวตั้ง */
+    min-height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+    background: #020617;
+}
+
+.star-field {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* สร้างดวงดาวด้วย Box Shadow แบบกระจายตัว */
+/* เราจะสร้างก้อนเมฆดวงดาวขนาดใหญ่ 1 ก้อน แล้วก๊อปปี้ไปวางต่อกัน */
+.stars-container {
+    position: absolute;
+    width: 100%;
+    height: 200%;
+    /* ให้สูงเป็น 2 เท่าของจอ */
+    top: 0;
+    left: 0;
+    background: transparent;
+    animation: starsInfinite 40s linear infinite;
+    /* วนลูปต่อเนื่อง */
+}
+
+.stars-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    background: transparent;
+    /* สร้างดาวดวงเล็กจิ๋วอีกชุด */
+    box-shadow: 15vw 15vh #fff, 55vw 55vh #fff, 85vw 85vh #fff, 45vw 25vh #fff;
+    /* แสงกระพริบ */
+    animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+    from {
+        opacity: 0.3;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* สร้างดาวด้วย shadow */
+.stars-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 2px;
+    background: white;
+    box-shadow:
+        /* แถวที่ 1 */
+        10vw 20vh #fff, 35vw 45vh #fff, 80vw 10vh #fff, 20vw 90vh #fff,
+        60vw 30vh #fff, 95vw 80vh #fff, 40vw 15vh #fff, 15vw 55vh #fff,
+        /* แถวที่ 2 (ก๊อปปี้พิกัดเดิมแต่เพิ่มความสูงขึ้นไป 100vh เพื่อให้มันต่อกัน) */
+        10vw 120vh #fff, 35vw 145vh #fff, 80vw 110vh #fff, 20vw 190vh #fff,
+        60vw 130vh #fff, 95vw 180vh #fff, 40vw 115vh #fff, 15vw 155vh #fff;
+
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+/* อนิเมชั่นเลื่อนขึ้นทีละ 50% (คือเลื่อนขึ้นไป 1 จอพอดี) */
+@keyframes starsInfinite {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-100vh);
+        /* เมื่อเลื่อนขึ้น 1 จอ ชุดที่สองจะมาแทนที่จุดเดิมพอดี */
+    }
 }
 
 .universe-wrapper {
     position: relative;
-    /* ใช้ vmin เพื่อให้ขนาดพอดีจอทุกอุปกรณ์ */
-    width: 90vmin;
-    height: 90vmin;
-    min-width: 300px;
-    /* กันจอเล็กเกิน */
-    min-height: 300px;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* ลบ margin-top ออกเพื่อให้กึ่งกลางสมบูรณ์ */
-    margin: 20px auto;
+    z-index: 1;
 }
 
 /* วงโคจร: ให้เห็นเส้นแต่คลิกทะลุได้ (pointer-events: none) */
@@ -169,6 +359,7 @@ h1 {
     pointer-events: none;
     z-index: 10;
     transform: translate(-50%, -50%);
+    box-shadow: inset 0 0 20px rgba(99, 102, 241, 0.05);
 }
 
 /* ตัวนักเรียน: ตั้งค่าให้คลิกได้ (pointer-events: auto) */
@@ -219,68 +410,114 @@ h1 {
     width: 100%;
     aspect-ratio: 1/1;
     border-radius: 50%;
-    border: 4px solid var(--accent);
     box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
-    animation: pulseGlow 3s infinite ease-in-out;
+    border: 3px solid var(--accent);
+    filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.6));
+    animation: teacherPulse 4s infinite ease-in-out;
 }
 
-/* --- ส่วน UI เพิ่มเติม --- */
+@keyframes teacherPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.6));
+    }
+
+    50% {
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 35px rgba(251, 191, 36, 0.9));
+    }
+}
+
 .back-btn {
     position: fixed;
-    /* ล็อกไว้ที่เดิมเสมอแม้เลื่อนหน้าจอ */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background: rgba(15, 23, 42, 0.9);
+    top: 15px;
+    left: 15px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    /* ทำให้เป็นวงกลม */
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(15px);
-    border: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
-    cursor: pointer;
-    z-index: 1000;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
     display: flex;
     align-items: center;
-    padding: 0 25px;
-    font-size: 0.9rem;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2000;
+    /* อยู่เหนือทุกอย่างรวมถึง Modal */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.back-btn:hover {
+    background: var(--primary-btn);
+    transform: scale(1.1) rotate(-10deg);
+    /* ส่ายนิดๆ ให้ดูมีลูกเล่น */
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.back-btn:active {
+    transform: scale(0.9);
+}
+
+/* เพิ่ม icon หรือตัวอักษรให้ดูดี */
+.back-btn::before {
+    content: '🏠';
+    /* ใช้ลูกศรแทนคำพูด */
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 .modal-overlay {
     position: fixed;
     inset: 0;
-    /* แทน top, left, width, height: 100% */
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
     display: none;
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    backdrop-filter: blur(8px);
-    padding: 15px;
+    padding: 20px;
 }
 
 .modal-overlay.open {
     display: flex;
+    backdrop-filter: blur(15px);
 }
 
 .modal-content {
-    background: var(--modal-bg);
-    padding: 20px;
-    border-radius: 25px;
-    border: 1.5px solid rgba(99, 102, 241, 0.5);
+    background: linear-gradient(165deg, rgba(15, 23, 42, 0.95), rgba(2, 6, 23, 0.98));
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    /* ขอบสีทองจางๆ */
+    border-radius: 30px;
+    padding: 30px 20px;
     width: 100%;
-    max-width: 320px;
-    /* บีบให้แคบลงเพื่อความสวยงาม */
+    max-width: 400px;
     position: relative;
-    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(99, 102, 241, 0.2);
+    animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
 
-    /* --- จุดสำคัญ: จำกัดความสูงไม่ให้ล้นจอ --- */
-    max-height: 85dvh;
-    overflow-y: auto;
-    /* เลื่อนในป๊อปอัพแทน */
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
 
-    transform: scale(0.9);
-    transition: transform 0.3s ease;
-    scrollbar-width: none;
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-overlay.open .modal-content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
 }
 
 /* ซ่อน Scrollbar สำหรับ Chrome/Safari */
@@ -288,19 +525,29 @@ h1 {
     display: none;
 }
 
-.modal-overlay.open .modal-content {
-    transform: scale(1);
+.modal-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 0 auto 20px auto;
+    border: 3px solid var(--primary-btn);
+    box-shadow: 0 0 25px rgba(99, 102, 241, 0.5);
+    display: block;
+    object-fit: cover;
+    animation: imageFloat 4s infinite ease-in-out;
+    /* รูปลอยขึ้นลงเบาๆ */
 }
 
-/* ปรับส่วนประกอบภายในให้เล็กลงเพื่อประหยัดพื้นที่ */
-.modal-img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 3px solid var(--primary-btn);
-    margin: 0 auto 12px auto;
-    display: block;
+@keyframes imageFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 /* ปรับปุ่ม Instagram ให้ดูเพรียวขึ้น */
@@ -323,25 +570,80 @@ h1 {
 }
 
 .modal-name {
-    font-size: 1.2rem;
-    margin: 5px 0;
-    color: #fff;
-    line-height: 1.3;
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 1px;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.3));
+}
+
+#ranking-list {
+    margin: 10px 0;
+    padding-right: 8px;
+    /* เว้นที่ให้ scrollbar */
+}
+
+/* ปรับแต่ง Scrollbar ให้ดูหรู */
+#ranking-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+#ranking-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+#ranking-list::-webkit-scrollbar-thumb {
+    background: rgba(251, 191, 36, 0.3);
+    border-radius: 10px;
 }
 
 .modal-sub {
-    font-size: 0.9rem;
-    color: #94a3b8;
-    margin-bottom: 12px;
+    font-size: 1rem;
+    color: var(--neon-blue);
+    /* สีฟ้าสดใสจากเครื่องมือก่อนหน้า */
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    text-align: center;
 }
 
 .close-modal {
     position: absolute;
-    top: 12px;
-    right: 15px;
+    top: 20px;
+    right: 20px;
     font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.3);
+    color: #94a3b8;
+    cursor: pointer;
+    line-height: 1;
+    transition: 0.3s;
 }
+
+.close-modal:hover {
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+.modal-content .nav-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    padding: 14px;
+    border-radius: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+}
+
+.modal-content .nav-btn:hover {
+    background: #ef4444;
+    /* เปลี่ยนเป็นสีแดงตอน Hover ให้รู้ว่าเป็นปุ่มปิด */
+    color: white;
+    border-color: #ef4444;
+}
+
 
 /* --- อนิเมชั่น --- */
 @keyframes rotate-cw {
@@ -399,12 +701,6 @@ h1 {
 
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap');
 
-:root {
-    --primary: linear-gradient(135deg, #ff416c, #ff4b2b);
-    --bg: #0f172a;
-    --card-bg: rgba(255, 255, 255, 0.05);
-    --accent-green: #00ff88;
-}
 
 body {
     font-family: 'Kanit', sans-serif;
@@ -443,87 +739,123 @@ h1 {
 
 .vote-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    /* ปรับขนาดขั้นต่ำเป็น 150px เพื่อให้ดูไม่เบียดกันเกินไปในมือถือจอเล็ก */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 20px;
     width: 100%;
-    max-width: 550px;
+    max-width: 800px;
+    /* ขยายให้กว้างขึ้นเล็กน้อยเพื่อความสวยงามในแท็บเล็ต */
+    margin: 0 auto;
+    padding: 30px 20px 150px 20px;
+    /* เว้นที่ด้านล่างเพิ่มให้ปุ่ม Sticky */
+    perspective: 1000px;
+    /* เพิ่มมิติสำหรับการทำ 3D Hover */
 }
 
 .vote-card {
-    background: var(--card-bg);
-    padding: 25px;
-    border-radius: 30px;
-    text-align: center;
+    position: relative;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
     border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 30px;
+    /* มนขึ้นเพื่อให้ดูซอฟต์ */
+    padding: 25px 15px;
+    text-align: center;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    backdrop-filter: blur(5px);
 }
 
 .vote-card:hover {
-    transform: translateY(-12px) scale(1.03);
-    border-color: rgba(255, 65, 108, 0.6);
-    box-shadow: 0 20px 40px rgba(255, 65, 108, 0.25);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent);
+    transform: translateY(-12px) scale(1.02);
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(251, 191, 36, 0.2);
+}
+
+/* เอฟเฟกต์แสงวิ่งพาดผ่านการ์ดตอน Hover */
+.vote-card::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -150%;
+    width: 100%;
+    height: 200%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent);
+    transform: rotate(45deg);
+    transition: 0.8s;
+}
+
+.vote-card:hover::after {
+    left: 150%;
 }
 
 .profile-img {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 15px;
-    border: 3px solid #ff416c;
-    box-shadow: 0 0 15px rgba(255, 65, 108, 0.3);
+    /* ทำขอบสองชั้น (Double Border Effect) */
+    border: 3px solid transparent;
+    background: linear-gradient(var(--bg-dark), var(--bg-dark)) padding-box,
+        var(--vote-red) border-box;
+    padding: 2px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.4s ease;
+}
+
+.vote-card:hover .profile-img {
+    transform: scale(1.1) rotate(5deg);
 }
 
 .name-label {
-    font-size: 1.3rem;
-    display: block;
-    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: #f8fafc;
     font-weight: 600;
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
 }
 
 .btn-vote {
-    background: var(--primary);
+    background: var(--vote-red);
     color: white;
     border: none;
-    padding: 12px;
-    border-radius: 16px;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
     width: 100%;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.btn-vote:active {
-    transform: scale(0.9);
-    filter: brightness(1.2);
-}
-
-.btn-result {
-    display: block;
-    /* บังคับเป็น Block */
-    margin: 30px auto;
-    /* จัดกลางแนวนอน (บน-ล่าง 30px, ซ้าย-ขวา auto) */
-    width: 80%;
-    /* กำหนดความกว้างให้พอดีมือถือ */
-    max-width: 280px;
-    /* ไม่ให้กว้างเกินไปในคอม */
-    padding: 15px;
-    border-radius: 50px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    font-size: 1.1rem;
-    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 65, 108, 0.3);
     transition: all 0.3s ease;
 }
 
+.btn-vote:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 8px 25px rgba(255, 65, 108, 0.5);
+    transform: translateY(-2px);
+}
+
+.btn-result {
+    display: flex;
+    margin: 40px auto;
+    width: 85%;
+    max-width: 280px;
+    padding: 16px;
+    font-size: 1.1rem;
+    animation: floatingGlow 3s infinite ease-in-out;
+}
+
 .btn-result:hover {
-    background: white;
-    color: black;
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(255, 65, 108, 0.6);
 }
 
 /* Modal */
@@ -561,20 +893,58 @@ h1 {
 
 .ranking-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 12px 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    animation: slideIn 0.5s ease backwards;
+    background: rgba(255, 255, 255, 0.03);
+    /* พื้นหลังจางๆ แบบในรูป */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    /* ขอบมนสวยงาม */
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.ranking-item:hover {
+    transform: scale(1.02);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.rank-badge {
+    width: 30px;
+    height: 30px;
+    background: var(--vote-red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+    margin-right: 12px;
 }
 
 .rank-img {
-    width: 45px;
-    height: 45px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
     object-fit: cover;
-    margin-right: 12px;
-    border: 2px solid #ff416c;
+    border: 3px solid #fbbf24;
+    /* ขอบสีทองตามอันดับ */
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+    margin-right: 20px;
+}
+
+.rank-name {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #ffffff;
+    flex-grow: 1;
+    /* ดันส่วนคะแนนไปทางขวา */
+}
+
+.rank-score-container {
+    text-align: right;
 }
 
 .rank-info {
@@ -596,20 +966,31 @@ h1 {
 }
 
 .rank-number {
-    color: #ffcc00;
-    font-weight: bold;
-    background: rgba(255, 204, 0, 0.15);
-    padding: 2px 10px;
-    border-radius: 8px;
-    margin-right: 10px;
-    min-width: 25px;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #fbbf24;
+    /* สีทองสำหรับอันดับ */
+    min-width: 40px;
     text-align: center;
+    margin-right: 15px;
+    font-family: 'Inter', sans-serif;
 }
 
 .score-value {
-    color: var(--accent-green);
-    font-weight: bold;
-    font-size: 1.2rem;
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #10b981;
+    /* สีเขียวสว่างตามรูปตัวอย่าง */
+    line-height: 1;
+}
+
+.score-label {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    margin-top: 5px;
+    display: block;
 }
 
 .close-btn {
@@ -623,14 +1004,6 @@ h1 {
     cursor: pointer;
     font-weight: bold;
     transition: 0.3s;
-}
-
-:root {
-    --bg-dark: #020617;
-    --primary-btn: #6366f1;
-    --accent: #fbbf24;
-    --vote-red: linear-gradient(135deg, #ff416c, #ff4b2b);
-    --glass: rgba(255, 255, 255, 0.05);
 }
 
 * {
@@ -664,53 +1037,107 @@ body {
     display: flex;
 }
 
-/* หน้าโหวตพิเศษ: ให้ Scroll ได้ลื่นไหลบนมือถือ */
 #vote-page {
-    overflow-y: auto;
     display: none;
-    padding-top: 80px;
-    padding-bottom: 100px;
-    /* กันปุ่มล่างบัง */
-    background: radial-gradient(circle at top, #1e293b 0%, #020617 100%);
+    padding-top: 0 !important;
+    /* ล้าง padding ด้านบน */
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 100vh;
+    width: 100vw;
+    background: radial-gradient(circle at 50% -20%, #1e293b 0%, #020617 80%);
+    background-attachment: fixed;
+    flex-direction: column;
+    align-items: stretch;
+    /* ให้ลูกๆ ขยายเต็มหน้าจอ */
+}
+
+#vote-page::-webkit-scrollbar {
+    display: none;
 }
 
 #vote-page.active {
     display: block;
+    animation: zoomOutFade 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- ส่วนหัวหน้าโหวต --- */
 .vote-header {
-    text-align: center;
-    margin-bottom: 25px;
+    position: sticky;
+    /* หรือ fixed ถ้าต้องการให้ล็อคถาวร */
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    /* ลบ margin ที่อาจทำให้นูนออกมา */
+    padding: 20px 0;
+    /* ปรับระยะห่างภายในตามความเหมาะสม */
+
+    background: rgba(15, 23, 42, 0.9);
+    /* สีพื้นหลังเข้มตามภาพ */
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .vote-title {
-    font-size: 2.5rem;
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+    font-weight: 800;
     margin: 0;
-    background: var(--vote-red);
+    background: linear-gradient(135deg, #fbbf24, #ff4b2b);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.3));
 }
 
-/* --- Grid โหวตแบบ 2 คอลัมน์ (Perfect for Mobile) --- */
-.vote-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 0 10px;
+/* --- 3. เพิ่มอนิเมชั่นให้การ์ดค่อยๆ ลอยขึ้นมาทีละใบ (Stagger) --- */
+#vote-page.active .vote-card {
+    animation: cardEntrance 0.6s ease-out backwards;
 }
 
-.vote-card {
-    background: var(--glass);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 15px 10px;
-    text-align: center;
-    transition: transform 0.2s;
+/* ใส่ Delay ให้แต่ละใบ (ถ้าใช้ JS Generate ให้ใส่สไตล์ delay เพิ่ม) */
+#vote-page.active .vote-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+#vote-page.active .vote-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+#vote-page.active .vote-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+/* --- 4. Keyframes ใหม่ให้ดู Smooth --- */
+
+@keyframes zoomOutFade {
+    from {
+        opacity: 0;
+        transform: scale(1.1);
+        /* เริ่มจากซูมเข้ามาหาตัว */
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .vote-card:active {
@@ -723,8 +1150,18 @@ body {
     height: 75px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #ff4b2b;
     margin-bottom: 10px;
+    border: 3px solid transparent;
+    background-image: linear-gradient(var(--bg-dark), var(--bg-dark)), var(--vote-red);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    padding: 3px;
+    transition: transform 0.3s;
+}
+
+.vote-card:hover img {
+    border-color: #fbbf24;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
 }
 
 .vote-card .name-label {
@@ -749,31 +1186,114 @@ body {
 .btn-result-sticky {
     position: fixed;
     bottom: 30px;
-    /* ระยะห่างจากขอบล่าง */
     left: 50%;
-    /* ดันมาที่กึ่งกลางจากซ้าย */
     transform: translateX(-50%);
-    /* ดึงกลับมาครึ่งตัวเพื่อให้กลางเป๊ะ */
-
-    width: 200px;
-    /* กำหนดขนาดที่แน่นอน */
+    /* จัดกลาง */
+    width: 220px;
+    padding: 14px 25px;
+    font-size: 1rem;
     z-index: 1000;
-    /* ให้อยู่เหนือทุกอย่าง */
-
-    background: var(--vote-red);
-    color: white;
-    padding: 12px 25px;
-    border-radius: 50px;
-    border: none;
-    box-shadow: 0 10px 25px rgba(255, 65, 108, 0.4);
-    font-weight: 500;
-    cursor: pointer;
+    animation: floatingGlow 3s infinite ease-in-out;
 }
 
-.ranking-item {
+.btn-result::before,
+.btn-result-sticky::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent);
+    transition: 0.6s;
+}
+
+/* ปุ่ม Leaderboard แบบใหม่ที่ดูแพงขึ้น */
+.btn-result,
+.btn-result-sticky {
+    background: var(--vote-red);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    overflow: hidden;
+    /* จำเป็นสำหรับแสงวิ่งข้ามปุ่ม */
+    position: relative;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 0 20px rgba(255, 65, 108, 0.4);
+    z-index: 10;
+}
+
+.btn-result-sticky:hover {
+    /* รักษาค่าจัดกลาง (translateX) ไว้พร้อมกับยกตัวขึ้น */
+    transform: translate(-50%, -8px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(255, 65, 108, 0.6);
+}
+
+/* เมื่อ Hover ให้แสงวิ่งผ่าน */
+.btn-result:hover::before,
+.btn-result-sticky:hover::before {
+    left: 100%;
+}
+
+@keyframes floatingGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 15px rgba(255, 65, 108, 0.3), 0 0 5px rgba(255, 65, 108, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 35px rgba(255, 65, 108, 0.7), 0 0 15px rgba(255, 65, 108, 0.4);
+    }
+}
+
+#vote-page .vote-header {
+    position: sticky;
+    /* ล็อคให้อยู่กับที่เวลาเลื่อน */
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0 !important;
+    /* ล้าง margin top ที่เคยตั้งไว้ 50px */
+    padding: 30px 20px;
+    /* เพิ่มพื้นที่หายใจด้านบน-ล่างให้หัวข้อ */
+    background: rgba(15, 23, 42, 0.9);
+    /* สีพื้นหลังเข้มตามรูป */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#vote-page .vote-title {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #fbbf24, #ff4b2b);
+    /* สีทองไปแดง */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.4));
+    margin: 0;
+}
+
+#vote-page .vote-subtitle {
+    color: #94a3b8;
+    font-size: 1.1rem;
+    margin-top: 10px;
 }

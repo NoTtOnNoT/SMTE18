@@ -20,7 +20,7 @@ const studentList = [
     { fullname: "นายวิชัย หลีหมัด", nickname: "รุก", ig: "wwucx_", img: "std4.jpeg" },
     { fullname: "นายกิตติพัทธ์ แช่ลิ่ม", nickname: "น็อต", ig: "not_kitti.pat", img: "std5.jpeg" },
     { fullname: "นายธีรัตม์ ทองชูช่วย", nickname: "เท็น", ig: "tenn_tn10", img: "std6.jpeg" },
-    { fullname: "นายศิระศิลป์ เบ็ญหยี่หมาน", nickname: "อิลญีน", ig: "eenyeen.sirasin", img: "std7.jpeg" },
+    { fullname: "นายศิระศิลป์ เบ็ญหยีหมาน", nickname: "อิลญีน", ig: "eenyeen.sirasin", img: "std7.jpeg" },
     { fullname: "นายแสงอรุณ ไพโรจน์", nickname: "ฟีโน่", ig: "sxxzl_p", img: "std8.jpeg" },
     { fullname: "นายอธิวัชร์ เภอโส๊ะ", nickname: "ธาม", ig: "thxmgojiraaaa", img: "std9.jpeg" },
     { fullname: "นายภานุพัฒน์ หลังปูเต๊ะ", nickname: "ไก่มีน", ig: "panupat175", img: "std10.jpeg" },
@@ -236,5 +236,50 @@ document.addEventListener('mousemove', (e) => {
 
         aura1.style.transform = `translate(${x * 50}px, ${y * 50}px)`;
         aura2.style.transform = `translate(${x * -50}px, ${y * -50}px)`;
+    }
+});
+
+// ใน script.js (เพิ่มโค้ดนี้ลงไปในส่วนของ initUniverse หรือ DOMContentLoaded)
+function generateStars(numStars, minSize, maxSize) {
+    let stars = '';
+    for (let i = 0; i < numStars; i++) {
+        const x = Math.floor(Math.random() * window.innerWidth);
+        const y = Math.floor(Math.random() * window.innerHeight);
+        const size = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize;
+        const opacity = Math.random() * 0.8 + 0.2; // ดาวบางดวงจางกว่า
+        stars += `${x}px ${y}px 0 ${size}px rgba(255,255,255,${opacity}),`;
+    }
+    return stars.slice(0, -1); // ลบ comma สุดท้ายออก
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // ... โค้ดเดิมของคุณ ...
+
+    // สร้างดาวเยอะๆ สำหรับ #member-page::before
+    const memberPage = document.getElementById('member-page');
+    if (memberPage) {
+        // สร้างดาว 200 ดวง ขนาด 1px
+        const smallStars = generateStars(200, 1, 1);
+        // สร้างดาว 50 ดวง ขนาด 1-2px
+        const mediumStars = generateStars(50, 1, 2);
+        // สร้างดาว 10 ดวง ขนาด 2-3px
+        const largeStars = generateStars(10, 2, 3);
+
+        // สร้าง Element เพิ่มเติมเพื่อใส่ box-shadow ของดาว
+        const starsLayer1 = document.createElement('div');
+        starsLayer1.className = 'star-layer';
+        starsLayer1.style.boxShadow = smallStars;
+        starsLayer1.style.animation = 'animateStars 50s linear infinite';
+        starsLayer1.style.opacity = '0.7';
+        starsLayer1.style.zIndex = '1';
+        memberPage.appendChild(starsLayer1);
+
+        const starsLayer2 = document.createElement('div');
+        starsLayer2.className = 'star-layer';
+        starsLayer2.style.boxShadow = mediumStars + ',' + largeStars; // รวมดาวขนาดกลางและใหญ่
+        starsLayer2.style.animation = 'animateStars 80s linear infinite reverse'; // เคลื่อนไหวสวนทาง
+        starsLayer2.style.opacity = '0.5';
+        starsLayer2.style.zIndex = '2';
+        memberPage.appendChild(starsLayer2);
     }
 });
