@@ -13,6 +13,8 @@
         <link
             href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500&display=swap"
             rel="stylesheet">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
         <script
             src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
@@ -25,23 +27,30 @@
 
         <div id="home-page" class="page active">
             <div class="star-field"></div>
+            <div class="space-aura aura-1"></div>
+            <div class="space-aura aura-2"></div>
 
             <div class="home-content">
-                <h1 class="main-title">SMTE 4/1</h1>
-                <p class="sub-text">สี่ทับหนึ่งลูกพ่อกฤต Single Dad</p>
+                <header class="hero-section">
+                    <h1 class="main-title">SMTE <span>4/1</span></h1>
+                    <p class="sub-text">สี่ทับหนึ่งลูกพ่อกฤต | Single Dad</p>
+                </header>
 
                 <div class="btn-container">
-                    <button class="nav-btn" onclick="goToPage('member-page')">
-                        <span>🚀 สมาชิก</span>
+                    <button class="nav-btn hero-btn"
+                        onclick="goToPage('member-page')">
+                        <div class="btn-shine"></div>
+                        <span>🚀 4/1 Member</span>
                     </button>
                     <button class="nav-btn" onclick="goToPage('vote-page')">
-                        <span>🔥 ใครไก่?</span>
+                        <span>🐔 CHICK VOTE</span>
                     </button>
-                    <button class="nav-btn"
+
+                    <button class="nav-btn secondary"
                         onclick="window.location.href='https://checkname-smte18.vercel.app'">
-                        <span>📝 เช็คชื่อ</span>
+                        <span>📝 CHECK NAME</span>
                     </button>
-                    <button class="nav-btn" 
+                    <button class="nav-btn secondary"
                         onclick="window.location.href='https://kc-smart.vercel.app'">
                         <span>🤖 KC SMART</span>
                     </button>
@@ -64,12 +73,29 @@
 
         <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
             <div class="modal-content" onclick="event.stopPropagation()">
+                <div class="modal-border-glow"></div>
+
                 <span class="close-modal" onclick="closeModal()">&times;</span>
-                <img src id="m-img" class="modal-img">
-                <h2 id="m-fullname" class="modal-name"></h2>
-                <p id="m-nickname-no" class="modal-sub"></p>
-                <a href="#" id="m-ig" target="_blank"
-                    class="ig-btn">Instagram</a>
+
+                <div class="modal-inner-header">
+                    <div class="image-wrapper">
+                        <img src id="m-img" class="modal-img">
+                        <div class="img-aura"></div>
+                    </div>
+                    <h2 id="m-fullname" class="modal-name"></h2>
+                    <p id="m-nickname-no" class="modal-sub"></p>
+                </div>
+
+                <div class="modal-divider"></div>
+
+                <div class="social-group">
+                    <a href="#" id="m-ig" target="_blank" class="social-btn ig">
+                        <i class="fab fa-instagram"></i> INSTAGRAM
+                    </a>
+                    <a href="#" id="m-fb" target="_blank" class="social-btn fb">
+                        <i class="fab fa-facebook-f"></i> FACEBOOK
+                    </a>
+                </div>
             </div>
         </div>
 

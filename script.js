@@ -14,36 +14,36 @@ const db = firebase.database();
 
 // 2. --- ข้อมูลสมาชิกและจักรวาล ---
 const studentList = [
-    { fullname: "นายรัตนโกสินทร์ สาดแสง", nickname: "สิงโต", ig: "li0nnnx45", img: "std1.jpeg" },
-    { fullname: "นายธัญวิน อร่ามวงศ์วิทย์", nickname: "อะฟิฟ", ig: "afifthanyawin", img: "std2.jpeg" },
-    { fullname: "นายกันตภณ เพชรพูล", nickname: "เซียมซี", ig: "siamsi0107", img: "std3.jpeg" },
-    { fullname: "นายวิชัย หลีหมัด", nickname: "รุก", ig: "wwucx_", img: "std4.jpeg" },
-    { fullname: "นายกิตติพัทธ์ แช่ลิ่ม", nickname: "น็อต", ig: "not_kitti.pat", img: "std5.jpeg" },
-    { fullname: "นายธีรัตม์ ทองชูช่วย", nickname: "เท็น", ig: "tenn_tn10", img: "std6.jpeg" },
-    { fullname: "นายศิระศิลป์ เบ็ญหยีหมาน", nickname: "อิลญีน", ig: "eenyeen.sirasin", img: "std7.jpeg" },
-    { fullname: "นายแสงอรุณ ไพโรจน์", nickname: "ฟีโน่", ig: "sxxzl_p", img: "std8.jpeg" },
-    { fullname: "นายอธิวัชร์ เภอโส๊ะ", nickname: "ธาม", ig: "thxmgojiraaaa", img: "std9.jpeg" },
-    { fullname: "นายภานุพัฒน์ หลังปูเต๊ะ", nickname: "ไก่มีน", ig: "panupat175", img: "std10.jpeg" },
-    { fullname: "นายฐาปณวัชร์ แช่วุ่น", nickname: "วัชร์", ig: "w_t1353", img: "std11.jpeg" },
-    { fullname: "นายฐาปณวิชญ์ แช่วุ่น", nickname: "วิชญ์", ig: "w_t._.panawit", img: "std12.jpeg" },
-    { fullname: "นายธีระพิชัย ศุภณัฏฐ์ปทุม", nickname: "หมิง", ig: "seetabnueng", img: "std13.jpeg" },
-    { fullname: "นายอัฟฟาน หลีเส็ม", nickname: "อัฟฟาน", ig: "qffqn_52", img: "std14.jpeg" },
-    { fullname: "นางสาวธนัสถา แช่เจ่", nickname: "เม่ย", ig: "mxzis_", img: "std15.jpeg" },
-    { fullname: "นางสาวหนึ่งฤทัย รัตนอุดม", nickname: "มี่", ig: "nmiiqxx_", img: "std16.jpeg" },
-    { fullname: "นางสาวธมน ชาลีเปรี่ยม", nickname: "ธมน", ig: "seetabnueng", img: "std17.jpeg" },
-    { fullname: "นางสาวปัณณิกา มัณฑะนานนท์", nickname: "ปัน", ig: "puuuuuuuuuuuu.n", img: "std18.jpeg" },
-    { fullname: "นางสาวนภาศิริ อาทรวิริยกุล", nickname: "นภา", ig: "nnnnpsriii_", img: "std19.jpeg" },
-    { fullname: "นางสาวพิมพ์นานา เกียรติเสนกุล", nickname: "นานา", ig: "pipim._.o", img: "std20.jpeg" },
-    { fullname: "นางสาวธัญวรัตน์ รัตนกาญจน์", nickname: "ยิม", ig: "yyieeim", img: "std21.jpeg" },
-    { fullname: "นางสาวฐิติวรดา หมานหมัด", nickname: "โมจิ", ig: "mxgogi", img: "std22.jpeg" },
-    { fullname: "นางสาวนิจิตตา พิพัฒน์นิธิกุลชัย", nickname: "ชมพู่", ig: "somjeed_52", img: "std23.jpeg" },
-    { fullname: "นางสาวอรสา กิ้มลั่น", nickname: "มิลล์", ig: "m1lkmx_", img: "std24.jpeg" },
-    { fullname: "นางสาวรัญชิดา หมานหนับ", nickname: "ชิดา", ig: "chi_.dx", img: "std25.jpeg" },
-    { fullname: "นางสาวกานต์สิรี สูขมิ่ง", nickname: "ปาน", ig: "seetabnueng", img: "std26.jpeg" },
-    { fullname: "นางสาวลลนา สังข์แก้ว", nickname: "ตอง", ig: "txng._o", img: "std27.jpeg" },
-    { fullname: "นางสาวธัญญรัตน์ เส้งนนท์", nickname: "เทียน", ig: "thayyratnesngnnth", img: "std28.jpeg" },
-    { fullname: "นางสาวภูริชญา โสะบิลเมาะ", nickname: "นานะ", ig: "nanaann.p", img: "std29.jpeg" },
-    { fullname: "นางสาวกัญญาภัทร แสงรักษ์", nickname: "ด้า", ig: "nourida_78", img: "std30.jpeg" }
+    { fullname: "นายรัตนโกสินทร์ สาดแสง", nickname: "สิงโต", ig: "li0nnnx45", fb: "61580489709518", img: "std1.jpeg" },
+    { fullname: "นายธัญวิน อร่ามวงศ์วิทย์", nickname: "อะฟิฟ", ig: "afifthanyawin", fb: "@afif.Thanyawin", img: "std2.jpeg" },
+    { fullname: "นายกันตภณ เพชรพูล", nickname: "เซียมซี", ig: "siamsi0107", fb: "@kan.tphn.phechr.phul", img: "std3.jpeg" },
+    { fullname: "นายวิชัย หลีหมัด", nickname: "รุก", ig: "wwucx_", fb: "@wichai.lheemad", img: "std4.jpeg" },
+    { fullname: "นายกิตติพัทธ์ แช่ลิ่ม", nickname: "น็อต", ig: "not_kitti.pat", fb: "@Not.Kittipat", img: "std5.jpeg" },
+    { fullname: "นายธีรัตม์ ทองชูช่วย", nickname: "เท็น", ig: "tenn_tn10", fb: "@ten.teerat.2024", img: "std6.jpeg" },
+    { fullname: "นายศิระศิลป์ เบ็ญหยีหมาน", nickname: "อิลญีน", ig: "eenyeen.sirasin", fb: "@sirasin.benyeeman", img: "std7.jpeg" },
+    { fullname: "นายแสงอรุณ ไพโรจน์", nickname: "ฟีโน่", ig: "sxxzl_p", fb: "@SAngxrun.PAirot", img: "std8.jpeg" },
+    { fullname: "นายอธิวัชร์ เภอโส๊ะ", nickname: "ธาม", ig: "thxmgojiraaaa", fb: "@athiwat.persoh", img: "std9.jpeg" },
+    { fullname: "นายภานุพัฒน์ หลังปูเต๊ะ", nickname: "ไก่มีน", ig: "panupat175", fb: "@pha.nu.phat.hn.hlang.pu.tea.kc.sadao.songkhla", img: "std10.jpeg" },
+    { fullname: "นายฐาปณวัชร์ แช่วุ่น", nickname: "วัชร์", ig: "w_t1353", fb: "@thapanawatsaewun", img: "std11.jpeg" },
+    { fullname: "นายฐาปณวิชญ์ แช่วุ่น", nickname: "วิชญ์", ig: "w_t._.panawit", fb: "@thapn.wichy.ese.wun", img: "std12.jpeg" },
+    { fullname: "นายธีระพิชัย ศุภณัฏฐ์ปทุม", nickname: "หมิง", ig: "seetabnueng", fb: "@thira.phichai.2025", img: "std13.jpeg" },
+    { fullname: "นายอัฟฟาน หลีเส็ม", nickname: "อัฟฟาน", ig: "qffqn_52", fb: "@affanlisem", img: "std14.jpeg" },
+    { fullname: "นางสาวธนัสถา แช่เจ่", nickname: "เม่ย", ig: "mxzis_", fb: "@thanattha.saeje", img: "std15.jpeg" },
+    { fullname: "นางสาวหนึ่งฤทัย รัตนอุดม", nickname: "มี่", ig: "nmiiqxx_", fb: "@mi.mee.7545", img: "std16.jpeg" },
+    { fullname: "นางสาวธมน ชาลีเปรี่ยม", nickname: "ธมน", ig: "seetabnueng", fb: "@thamon.chaleepaen", img: "std17.jpeg" },
+    { fullname: "นางสาวปัณณิกา มัณฑะนานนท์", nickname: "ปัน", ig: "puuuuuuuuuuuu.n", fb: "@ppun.nika2", img: "std18.jpeg" },
+    { fullname: "นางสาวนภาศิริ อาทรวิริยกุล", nickname: "นภา", ig: "nnnnpsriii_", fb: "@napasiri.arthonwiriyakun", img: "std19.jpeg" },
+    { fullname: "นางสาวพิมพ์นานา เกียรติเสนกุล", nickname: "นานา", ig: "pipim._.o", fb: "@pimnana.kiatisenkul", img: "std20.jpeg" },
+    { fullname: "นางสาวธัญวรัตน์ รัตนกาญจน์", nickname: "ยิม", ig: "yyieeim", fb: "@yim.thanwarat.2024", img: "std21.jpeg" },
+    { fullname: "นางสาวฐิติวรดา หมานหมัด", nickname: "โมจิ", ig: "mxgogi", fb: "@mxjii.mx", img: "std22.jpeg" },
+    { fullname: "นางสาวนิจิตตา พิพัฒน์นิธิกุลชัย", nickname: "ชมพู่", ig: "somjeed_52", fb: "@nijtjta.ja", img: "std23.jpeg" },
+    { fullname: "นางสาวอรสา กิ้มลั่น", nickname: "มิลล์", ig: "m1lkmx_", fb: "@ourasa.kimlan.5", img: "std24.jpeg" },
+    { fullname: "นางสาวรัญชิดา หมานหนับ", nickname: "ชิดา", ig: "chi_.dx", fb: "@ranchida.mannab.2025", img: "std25.jpeg" },
+    { fullname: "นางสาวกานต์สิรี สุขมิ่ง", nickname: "ปาน", ig: "seetabnueng", fb: "@kansiree.sukming", img: "std26.jpeg" },
+    { fullname: "นางสาวลลนา สังข์แก้ว", nickname: "ตอง", ig: "txng._o", fb: "@lalana.sangkaew", img: "std27.jpeg" },
+    { fullname: "นางสาวธัญญรัตน์ เส้งนนท์", nickname: "เทียน", ig: "thayyratnesngnnth", fb: "@thay.y.ratn.seng.nnth", img: "std28.jpeg" },
+    { fullname: "นางสาวภูริชญา โสะบิลเมาะ", nickname: "นานะ", ig: "nanaann.p", fb: "@purichaya.nana.7", img: "std29.jpeg" },
+    { fullname: "นางสาวกัญญาภัทร แสงรักษ์", nickname: "ด้า", ig: "nourida_78", fb: "@kanyaphat.sangrak", img: "std30.jpeg" }
 ];
 
 const teacherData = { fullname: "นายจิรกฤต หมกแดง", nickname: "ครูกฤตคนหล่อ", no: "ครูที่ปรึกษา", ig: "grit.ji", img: "std0.jpeg" };
@@ -138,19 +138,65 @@ function toggleBodyLock(isLocked) {
 
 // แก้ไขฟังก์ชันเปิด Modal สมาชิก
 function openModal(data) {
-    document.getElementById('m-img').src = data.img;
-    document.getElementById('m-fullname').innerText = data.fullname;
-    document.getElementById('m-nickname-no').innerText = `${data.nickname} | ${data.no}`;
-    document.getElementById('m-ig').href = "https://instagram.com/" + data.ig;
+    // 1. อัปเดตข้อมูลรูปภาพพร้อมระบบป้องกัน Error
+    const imgEl = document.getElementById('m-img');
+    imgEl.src = data.img;
+    imgEl.onerror = () => { imgEl.src = 'std0.jpeg'; }; // ถ้าโหลดรูปไม่ขึ้น ให้ใช้รูปสำรอง
 
+    // 2. อัปเดตชื่อและเลขที่/ฉายา
+    document.getElementById('m-fullname').innerText = data.fullname;
+    document.getElementById('m-nickname-no').innerText = `${data.nickname} | No.${data.no}`;
+
+    // 3. จัดการ Instagram (ซ่อนปุ่มถ้าไม่มีข้อมูล)
+    const igBtn = document.getElementById('m-ig');
+    if (data.ig && data.ig !== "#" && data.ig !== "") {
+        // รองรับทั้งใส่แค่ชื่อ user หรือใส่ลิงก์มาเต็มๆ
+        igBtn.href = data.ig.includes('http') ? data.ig : "https://instagram.com/" + data.ig;
+        igBtn.style.display = "flex";
+    } else {
+        igBtn.style.display = "none";
+    }
+
+    // 4. จัดการ Facebook (ซ่อนปุ่มถ้าไม่มีข้อมูล)
+    const fbBtn = document.getElementById('m-fb');
+    if (data.fb && data.fb !== "#" && data.fb !== "") {
+        fbBtn.href = data.fb.includes('http') ? data.fb : "https://facebook.com/" + data.fb;
+        fbBtn.style.display = "flex";
+    } else {
+        fbBtn.style.display = "none";
+    }
+
+    // 5. แสดง Modal พร้อมใส่ Class สำหรับ Animation
     const modal = document.getElementById('modalOverlay');
-    modal.classList.add('open');
-    toggleBodyLock(true);
+    modal.style.display = 'flex'; // มั่นใจว่าแสดงผลแบบ Flex
+
+    // ใช้ setTimeout เล็กน้อยเพื่อให้ CSS Transition ทำงาน (ถ้ามี)
+    setTimeout(() => {
+        modal.classList.add('open');
+    }, 10);
+
+    // 6. ล็อกหน้าจอไม่ให้สกรูล
+    if (typeof toggleBodyLock === "function") {
+        toggleBodyLock(true);
+    } else {
+        document.body.style.overflow = 'hidden';
+    }
 }
 
+// เพิ่มฟังก์ชันปิด Modal ให้สมบูรณ์
 function closeModal() {
-    document.getElementById('modalOverlay').classList.remove('open');
-    toggleBodyLock(false);
+    const modal = document.getElementById('modalOverlay');
+    modal.classList.remove('open');
+
+    // รอให้แอนิเมชันจบก่อนค่อยซ่อน display
+    setTimeout(() => {
+        modal.style.display = 'none';
+        if (typeof toggleBodyLock === "function") {
+            toggleBodyLock(false);
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }, 200); // เวลาต้องสัมพันธ์กับ CSS Transition
 }
 
 // แก้ไขฟังก์ชัน Leaderboard
@@ -282,4 +328,17 @@ document.addEventListener('DOMContentLoaded', () => {
         starsLayer2.style.zIndex = '2';
         memberPage.appendChild(starsLayer2);
     }
+});
+
+// เพิ่มบรรทัดนี้ในฟังก์ชัน openModal หลังคำสั่งแสดง Modal
+const socialBtns = document.querySelectorAll('.social-btn');
+socialBtns.forEach((btn, index) => {
+    btn.style.opacity = '0';
+    btn.style.transform = 'translateY(20px)';
+
+    setTimeout(() => {
+        btn.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        btn.style.opacity = '1';
+        btn.style.transform = 'translateY(0)';
+    }, 300 + (index * 150)); // ปุ่มแรกมาเร็ว ปุ่มสองตามมาติดๆ
 });

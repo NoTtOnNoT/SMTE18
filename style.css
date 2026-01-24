@@ -5,8 +5,11 @@
     --modal-bg: rgba(15, 23, 42, 0.95);
     --vote-red: linear-gradient(135deg, #ff416c, #ff4b2b);
     --neon-blue: #38bdf8;
-    --glass: rgba(255, 255, 255, 0.03);
     --glass-border: rgba(255, 255, 255, 0.1);
+    --gold: #fbbf24;
+    --primary-blue: #6366f1;
+    --deep-bg: #020617;
+    --glass: rgba(255, 255, 255, 0.05);
 }
 
 * {
@@ -26,11 +29,20 @@ body {
     position: relative;
     /* ยอมให้เลื่อนขึ้นลงได้ปกติ */
     overflow-y: auto;
-    background-color: var(--bg-dark);
     /* พื้นหลังแบบลุ่มลึก */
     background-image:
         radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
         radial-gradient(at 100% 100%, rgba(251, 191, 36, 0.1) 0px, transparent 50%);
+    color: white;
+    overflow: hidden;
+    height: 100vh;
+    min-height: 100vh;
+    font-family: 'Kanit', sans-serif;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--deep-bg);
 }
 
 * {
@@ -43,20 +55,6 @@ body {
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
-}
-
-body {
-    margin: 0;
-    background-color: var(--bg-dark);
-    color: white;
-    /* เปลี่ยนจาก hidden เป็น auto เพื่อให้เลื่อนได้ */
-    overflow-y: auto;
-    overflow-x: hidden;
-    min-height: 100vh;
-    width: 100vw;
-    background-image:
-        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(251, 191, 36, 0.1) 0px, transparent 50%);
 }
 
 body.modal-open {
@@ -79,6 +77,23 @@ body.modal-open {
 
 .active {
     display: flex;
+}
+
+.hero-section {
+    margin-bottom: 40px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 15px;
+    background: rgba(99, 102, 241, 0.2);
+    border: 1px solid var(--primary-blue);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    color: var(--primary-blue);
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
 /* --- หน้าแรก (Home Page) --- */
@@ -105,23 +120,31 @@ body.modal-open {
 /* จัดการเนื้อหาหน้าแรกให้ดูเด่น */
 .home-content {
     position: relative;
-    z-index: 2;
     /* ให้อยู่เหนือแสง Glow และ Star Field */
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    z-index: 10;
+    width: 100%;
+    max-width: 900px;
+    /* จำกัดความกว้างให้พอดีมือถือ */
 }
 
 .main-title {
-    font-size: clamp(3rem, 15vw, 6rem);
-    font-weight: 800;
-    margin-bottom: 0.2rem;
-    background: linear-gradient(to bottom, #ffffff 20%, #6366f1 100%);
+    font-size: clamp(4rem, 12vw, 7rem);
+    font-weight: 900;
+    line-height: 0.9;
+    background: linear-gradient(to bottom, #fff 50%, #64748b);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.4));
-    letter-spacing: -2px;
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
+}
+
+.main-title span {
+    color: var(--gold);
+    -webkit-text-fill-color: var(--gold);
+    text-shadow: 0 0 40px rgba(251, 191, 36, 0.3);
 }
 
 h1 {
@@ -146,12 +169,12 @@ h1 {
 }
 
 .btn-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: clamp(10px, 3vw, 20px);
-    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
     width: 100%;
-    z-index: 1;
+    max-width: 450px;
+    margin: 0 auto;
 }
 
 /* ปรับปุ่มให้เรียงแถวเดียวถ้าจอมือถือเล็กมาก */
@@ -161,58 +184,104 @@ h1 {
     }
 }
 
+.hero-btn {
+    padding: 25px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+    border-color: rgba(255, 255, 255, 0.3);
+    font-size: 1.2rem;
+}
+
 .nav-btn {
     position: relative;
-    /* เพื่อรองรับลูกเล่นแสงวิ่ง */
-    overflow: hidden;
-    /* ป้องกันแสงวิ่งทะลุขอบปุ่ม */
-    padding: clamp(12px, 4vh, 20px);
-    font-size: clamp(0.85rem, 2.5vw, 1.1rem);
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 18px;
+    padding: 20px;
+    border-radius: 15px;
+    border: none;
     background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
     cursor: pointer;
-
-    /* อนิเมชั่นเงาแบบนุ่มนวลตลอดเวลา */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2),
-        0 0 0 rgba(99, 102, 241, 0);
-
+    overflow: hidden;
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    animation: fadeInUp 1.2s ease-out, buttonFloat 3s infinite ease-in-out;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-btn:hover,
+.nav-btn:active {
+    transform: translateY(-3px) scale(1.02);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #fbbf24;
+    box-shadow: 0 10px 25px rgba(251, 191, 36, 0.2);
+}
+
+.nav-btn span {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 2;
+}
+
+.nav-btn:hover span i {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 8px #fbbf24);
+}
+
+.nav-btn:first-child {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* เอฟเฟกต์แสงวิ่งพาดผ่านปุ่ม (Shine Effect) */
 .nav-btn::before {
-    content: "";
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 15px;
+    padding: 2px;
+    /* ความหนาของเส้นขอบ */
+    background: linear-gradient(90deg, transparent, #fbbf24, #ef4444, transparent);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+    transition: 0.5s;
+}
+
+.nav-btn:hover::before {
+    opacity: 1;
+    background: linear-gradient(90deg, #fbbf24, #fff, #fbbf24);
+}
+
+.nav-btn:hover {
+    transform: translateY(-5px) rotateX(10deg);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fbbf24;
+    box-shadow: 0 15px 30px rgba(251, 191, 36, 0.3);
+}
+
+.nav-btn::after {
+    content: '';
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(120deg,
+    background: linear-gradient(90deg,
             transparent,
-            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.2),
             transparent);
     transition: 0.6s;
 }
 
-.nav-btn:hover {
-    background: rgba(99, 102, 241, 0.25);
-    border-color: rgba(165, 180, 252, 0.5);
-    transform: translateY(-8px) scale(1.02);
-    /* เงาเรืองแสงตอน Hover ที่ดูอลังการ */
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4),
-        0 0 20px rgba(99, 102, 241, 0.4);
-    color: #fff;
-}
-
-/* เมื่อ Hover ให้แสงวิ่งผ่าน */
-.nav-btn:hover::before {
+.nav-btn:hover::after {
     left: 100%;
 }
 
@@ -246,6 +315,28 @@ h1 {
         transform: translateY(0);
         filter: blur(0);
     }
+}
+
+.space-aura {
+    position: absolute;
+    width: 60vw;
+    height: 60vw;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -1;
+    opacity: 0.15;
+}
+
+.aura-1 {
+    background: var(--primary-blue);
+    top: -20%;
+    left: -20%;
+}
+
+.aura-2 {
+    background: #7c3aed;
+    bottom: -20%;
+    right: -20%;
 }
 
 #member-page {
@@ -475,25 +566,28 @@ h1 {
     align-items: center;
     z-index: 9999;
     padding: 20px;
+    transition: all 0.4s ease;
 }
 
 .modal-overlay.open {
     display: flex;
     backdrop-filter: blur(15px);
+    animation: fadeIn 0.3s ease-out;
 }
 
 .modal-content {
-    background: linear-gradient(165deg, rgba(15, 23, 42, 0.95), rgba(2, 6, 23, 0.98));
-    border: 1px solid rgba(251, 191, 36, 0.3);
-    /* ขอบสีทองจางๆ */
-    border-radius: 30px;
-    padding: 30px 20px;
-    width: 100%;
-    max-width: 400px;
     position: relative;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
-        0 0 20px rgba(99, 102, 241, 0.2);
-    animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 40px;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    transform: scale(0.9);
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @keyframes modalPop {
@@ -516,6 +610,13 @@ h1 {
 /* ซ่อน Scrollbar สำหรับ Chrome/Safari */
 .modal-content::-webkit-scrollbar {
     display: none;
+}
+
+.image-wrapper {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
 }
 
 .modal-img {
@@ -562,6 +663,24 @@ h1 {
     transform: scale(0.95);
 }
 
+.fb-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    color: white;
+    padding: 10px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    width: 100%;
+    transition: transform 0.2s;
+}
+
+.fb-btn:active {
+    transform: scale(0.95);
+}
+
 .modal-name {
     font-size: 1.8rem;
     font-weight: 800;
@@ -571,6 +690,119 @@ h1 {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.3));
+}
+
+.modal-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    margin-bottom: 25px;
+}
+
+/* --- Social Buttons --- */
+.social-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+    perspective: 500px;
+    /* เพิ่มมิติความลึกเวลา Hover */
+}
+
+.social-btn {
+    position: relative;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    transform: scale(0);
+    transition: 0.6s ease-out;
+    pointer-events: none;
+}
+
+.social-btn:hover::before {
+    transform: scale(1);
+}
+
+.social-btn.ig {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    box-shadow: 0 4px 15px rgba(220, 39, 67, 0.3);
+    color: white;
+}
+
+.social-btn.fb {
+    background: linear-gradient(135deg, #1877f2 0%, #0a58ca 100%);
+    box-shadow: 0 4px 15px rgba(24, 119, 242, 0.3);
+    color: white;
+}
+
+.social-btn:hover {
+    transform: translateY(-5px) translateZ(20px);
+    /* ลอยออกมาหาผู้ใช้ */
+    filter: brightness(1.1);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.social-btn:hover i {
+    animation: iconBounce 0.5s infinite alternate;
+}
+
+@keyframes iconBounce {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.3);
+    }
+}
+
+/* --- Animations --- */
+@keyframes pulseAura {
+    0% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 #ranking-list {
@@ -691,22 +923,7 @@ h1 {
     align-items: center;
 }
 
-
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap');
-
-
-body {
-    font-family: 'Kanit', sans-serif;
-    background: var(--bg);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    margin: 0;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
 
 h1 {
     font-weight: 600;
@@ -1005,14 +1222,6 @@ h1 {
     -webkit-tap-highlight-color: transparent;
 }
 
-body {
-    margin: 0;
-    background-color: var(--bg-dark);
-    color: white;
-    overflow: hidden;
-    height: 100vh;
-}
-
 /* --- การจัดการหน้า --- */
 .page {
     display: none;
@@ -1289,4 +1498,83 @@ body {
     color: #94a3b8;
     font-size: 1.1rem;
     margin-top: 10px;
+}
+
+/* แอนิเมชันให้ Modal หรือ Card ดูเหมือนลอยอยู่ในอวกาศ */
+@keyframes float {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(1deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
+/* เอฟเฟกต์ Glassmorphism ขั้นสูง */
+.modal-content,
+.nav-btn {
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+        0 20px 50px rgba(0, 0, 0, 0.5);
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.5s ease,
+        background 0.3s ease;
+}
+
+/* เอฟเฟกต์แสงนีออนวิ่งรอบปุ่ม/Modal (Border Beam) */
+@keyframes borderBeam {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.hero-btn {
+    background-size: 200% 200%;
+    animation: borderBeam 5s linear infinite;
+    border: 2px solid transparent;
+    background-image: linear-gradient(#020617, #020617),
+        linear-gradient(90deg, #fbbf24, #6366f1, #fbbf24);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+
+/* มิติความลึกของตัวอักษร */
+.main-title {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+/* สร้างจุดเล็กๆ ลอยไปมา */
+.star-field::after {
+    content: "";
+    position: absolute;
+    inset: -100px;
+    background-image: radial-gradient(1px 1px at 20px 30px, #fff, rgba(0, 0, 0, 0)),
+        radial-gradient(1.5px 1.5px at 100px 150px, #fff, rgba(0, 0, 0, 0));
+    background-size: 300px 300px;
+    opacity: 0.2;
+    animation: drift 60s linear infinite;
+}
+
+@keyframes drift {
+    from {
+        transform: rotate(0deg) translateY(0);
+    }
+
+    to {
+        transform: rotate(5deg) translateY(-100px);
+    }
 }
