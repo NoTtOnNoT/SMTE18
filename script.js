@@ -37,7 +37,7 @@ const studentList = [
     { fullname: "นางสาวธัญวรัตน์ รัตนกาญจน์", nickname: "ยิม", ig: "yyieeim", fb: "@yim.thanwarat.2024", img: "std21.jpeg" },
     { fullname: "นางสาวฐิติวรดา หมานหมัด", nickname: "โมจิ", ig: "mxgogi", fb: "@mxjii.mx", img: "std22.jpeg" },
     { fullname: "นางสาวนิจิตตา พิพัฒน์นิธิกุลชัย", nickname: "ชมพู่", ig: "somjeed_52", fb: "@nijtjta.ja", img: "std23.jpeg" },
-    { fullname: "นางสาวอรสา กิ้มลั่น", nickname: "มิลล์", ig: "m1lkmx_", fb: "@ourasa.kimlan.5", img: "std24.jpeg" },
+    { fullname: "นางสาวอรสา กิ้มลั่น", nickname: "มิลค์", ig: "m1lkmx_", fb: "@ourasa.kimlan.5", img: "std24.jpeg" },
     { fullname: "นางสาวรัญชิดา หมานหนับ", nickname: "ชิดา", ig: "chi_.dx", fb: "@ranchida.mannab.2025", img: "std25.jpeg" },
     { fullname: "นางสาวกานต์สิรี สุขมิ่ง", nickname: "ปาน", ig: "seetabnueng", fb: "@kansiree.sukming", img: "std26.jpeg" },
     { fullname: "นางสาวลลนา สังข์แก้ว", nickname: "ตอง", ig: "txng._o", fb: "@lalana.sangkaew", img: "std27.jpeg" },
