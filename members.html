@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4/1 Members - SMTE18</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+</head>
+<body class="member-body">
+
+    <div id="member-page" class="page active"> <div class="star-field">
+            <div class="stars-container"></div>
+        </div>
+
+        <button class="back-btn" onclick="window.location.href='index.html'"></button>
+        
+        <div class="universe-wrapper" id="universe">
+            <div class="teacher" id="teacher-btn">
+                <img src="std0.jpeg" alt="Teacher">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-border-glow"></div>
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div class="modal-inner-header">
+                <div class="image-wrapper">
+                    <img src="" id="m-img" class="modal-img">
+                    <div class="img-aura"></div>
+                </div>
+                <h2 id="m-fullname" class="modal-name"></h2>
+                <p id="m-nickname-no" class="modal-sub"></p>
+            </div>
+            <div class="modal-divider"></div>
+            <div class="social-group">
+                <a href="#" id="m-ig" target="_blank" class="social-btn ig">
+                    <i class="fab fa-instagram"></i> INSTAGRAM
+                </a>
+                <a href="#" id="m-fb" target="_blank" class="social-btn fb">
+                    <i class="fab fa-facebook-f"></i> FACEBOOK
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
