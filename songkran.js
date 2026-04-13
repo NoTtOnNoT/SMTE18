@@ -618,9 +618,10 @@ document.getElementById('btn-leaderboard').onclick = () => {
     const modal = document.getElementById('leaderboard-modal');
     const list = document.getElementById('leaderboard-list');
     modal.style.display = 'flex';
-    list.innerHTML = '<p style="color:#0288d1">กำลังดึงข้อมูลอันดับจากสวรรค์...</p>';
+    list.innerHTML = '<p style="color:#0288d1">กำลังโหลดข้อมูลอันดับแบบเรียลไทม์...</p>';
     
-    db.ref('songkran_stats').once('value', (snapshot) => {
+    // เปลี่ยนจาก .once เป็น .on เพื่อให้แสดงผลแบบเรียลไทม์
+    db.ref('songkran_stats').on('value', (snapshot) => {
         const data = snapshot.val();
         if (!data) { list.innerHTML = "ยังไม่มีใครโดนสาดในตอนนี้!"; return; }
         
@@ -635,7 +636,21 @@ document.getElementById('btn-leaderboard').onclick = () => {
     });
 };
 
+// ฟังก์ชันสำหรับปิด Leaderboard และหยุดการดึงข้อมูลเพื่อประหยัดทรัพยากร
+window.closeLeaderboardModal = () => {
+    document.getElementById('leaderboard-modal').style.display = 'none';
+    db.ref('songkran_stats').off(); // หยุดการฟังข้อมูล
+};
+
 startBtn.onclick = () => {
+    // ล้างข้อมูลในเกมเดิมก่อนเริ่มใหม่ เพื่อป้องกันคะแนนเด้งเอง
+    targets.length = 0;
+    droplets.length = 0;
+    splashes.length = 0;
+    mists.length = 0;
+    powderBalls.length = 0;
+    player = new Player(); // รีเซ็ตตำแหน่งผู้เล่น
+
     let loaded = 0;
     selectedStudents.forEach(std => {
         const img = new Image();
@@ -688,16 +703,16 @@ canvas.addEventListener('touchend', () => {
 
 // Keyboard Events
 window.addEventListener('keydown', (e) => { 
-    const key = e.key.toLowerCase();
-    if(key === 'a' || key === 'arrowleft') keys.a = true; 
-    if(key === 'd' || key === 'arrowright') keys.d = true; 
-    if(key === 'w' || key === 'arrowup' || key === ' ' || key === 'spacebar') keys.space = true; 
+    const k = e.key.toLowerCase(); // ใช้ตัวแปร k เพื่อไม่ให้ชนกับ scope อื่น
+    if(k === 'a' || k === 'arrowleft') keys.a = true; 
+    if(k === 'd' || k === 'arrowright') keys.d = true; 
+    if(k === 'w' || k === 'arrowup' || k === ' ' || k === 'spacebar') keys.space = true; 
 });
 window.addEventListener('keyup', (e) => { 
-    const key = e.key.toLowerCase();
-    if(key === 'a' || key === 'arrowleft') keys.a = false; 
-    if(key === 'd' || key === 'arrowright') keys.d = false; 
-    if(key === 'w' || key === 'arrowup' || key === ' ' || key === 'spacebar') keys.space = false; 
+    const k = e.key.toLowerCase();
+    if(k === 'a' || k === 'arrowleft') keys.a = false; 
+    if(k === 'd' || k === 'arrowright') keys.d = false; 
+    if(k === 'w' || k === 'arrowup' || k === ' ' || k === 'spacebar') keys.space = false; 
 });
 
 // เชื่อมต่อปุ่มควบคุมบนหน้าจอ (Mobile Controls)
