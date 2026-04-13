@@ -6,10 +6,14 @@
     <title>Songkran Ultimate Battle 💦</title>
     <link rel="stylesheet" href="songkran.css">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
     <div id="selection-screen">
         <div class="selection-content">
+            <button id="btn-leaderboard" class="leaderboard-btn-fixed">🏆 อันดับคนโดนสาด</button>
             <header class="selection-header">
                 <h1>Songkran Battle 💦</h1>
                 <p>เลือกเพื่อนที่จะไปสาดน้ำด้วยกัน (เลือกกี่คนก็ได้นะ!)</p>
@@ -30,6 +34,14 @@
             <footer class="selection-footer">
                 <button id="start-game-btn" disabled>เริ่มเล่นน้ำเลย! 🔫</button>
             </footer>
+        </div>
+    </div>
+
+    <div id="leaderboard-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>🏆 อันดับเพื่อนที่โดนสาดหนักที่สุด</h2>
+            <div id="leaderboard-list">กำลังโหลดข้อมูล...</div>
+            <button onclick="document.getElementById('leaderboard-modal').style.display='none'" class="tool-btn">ปิด</button>
         </div>
     </div>
 

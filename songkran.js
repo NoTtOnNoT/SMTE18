@@ -1,6 +1,22 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+// --- Firebase Configuration ---
+const firebaseConfig = {
+    apiKey: "AIzaSyAb-68LOJNRhVmZeCjCGvfg-lZdt-LCU0E",
+    authDomain: "smte-6550d.firebaseapp.com",
+    databaseURL: "https://smte-6550d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "smte-6550d",
+    storageBucket: "smte-6550d.firebasestorage.app",
+    messagingSenderId: "992310898236",
+    appId: "1:992310898236:web:a05a1711cfdf371400dd39",
+    measurementId: "G-4HLEX2SFC4"
+};
+
+// Initialize Firebase
+if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+const db = firebase.database();
+
 // ปรับขนาด Canvas ให้เต็มจอเสมอ
 function resize() {
     canvas.width = window.innerWidth;
@@ -252,6 +268,7 @@ class Target {
         this.vx = (1.5 + Math.random() * 2) * this.direction;
         this.baseSpeed = this.vx;
         this.isWet = false;
+        this.hitCooldown = 0; // ป้องกันการส่งข้อมูลถี่เกินไป
         this.wetStrength = 0;
         this.wetTimer = 0;
         this.powderPatches = []; // เก็บตำแหน่งรอยแป้งที่โดนจริง
@@ -266,6 +283,8 @@ class Target {
     update() {
         this.x += this.vx;
         this.walkCycle += Math.abs(this.vx) * 0.05;
+
+        if (this.hitCooldown > 0) this.hitCooldown--;
 
         if (this.wetTimer > 0) {
             this.wetTimer--;
@@ -388,6 +407,15 @@ class Target {
     }
     hit(sourceX, type = 'gun', hitX = null, hitY = null) {
         this.isWet = true;
+
+        // บันทึกสถิติลง Firebase (หน่วงเวลาไว้เล็กน้อยเพื่อความเสถียร)
+        if (this.hitCooldown <= 0) {
+            const safeNick = this.student.nickname.replace(/[.#$[\]]/g, "_");
+            db.ref(`songkran_stats/${safeNick}/${type}`).transaction(c => (c || 0) + 1);
+            db.ref(`songkran_stats/${safeNick}/total`).transaction(c => (c || 0) + 1);
+            this.hitCooldown = 20; 
+        }
+
         if (type === 'powder' && hitX !== null && hitY !== null && Math.random() > 0.1) {
             // คำนวณแรงสั่นและจังหวะเดิน ณ เวลาที่โดน เพื่อให้แป้งติดถูกตำแหน่ง
             const shakeX = (Math.random() - 0.5) * this.wetStrength * 2;
@@ -583,6 +611,28 @@ document.getElementById('btn-random').onclick = () => {
     const selectedCountSpan = document.getElementById('selected-count');
     if (selectedCountSpan) selectedCountSpan.innerText = selectedStudents.length;
     startBtn.disabled = selectedStudents.length === 0;
+};
+
+// ระบบดึงข้อมูลอันดับจาก Firebase
+document.getElementById('btn-leaderboard').onclick = () => {
+    const modal = document.getElementById('leaderboard-modal');
+    const list = document.getElementById('leaderboard-list');
+    modal.style.display = 'flex';
+    list.innerHTML = '<p style="color:#0288d1">กำลังดึงข้อมูลอันดับจากสวรรค์...</p>';
+    
+    db.ref('songkran_stats').once('value', (snapshot) => {
+        const data = snapshot.val();
+        if (!data) { list.innerHTML = "ยังไม่มีใครโดนสาดในตอนนี้!"; return; }
+        
+        // เรียงลำดับตาม Total (จากมากไปน้อย)
+        const sorted = Object.entries(data).sort((a, b) => (b[1].total || 0) - (a[1].total || 0));
+        let html = `<table class="leaderboard-table"><tr><th>ชื่อ</th><th>🔫</th><th>⚪</th><th>🥣</th><th>รวม</th></tr>`;
+        sorted.forEach(([name, stats]) => {
+            html += `<tr><td>${name}</td><td>${stats.gun || 0}</td><td>${stats.powder || 0}</td><td>${stats.bowl || 0}</td><td><strong>${stats.total || 0}</strong></td></tr>`;
+        });
+        html += "</table>";
+        list.innerHTML = html;
+    });
 };
 
 startBtn.onclick = () => {
