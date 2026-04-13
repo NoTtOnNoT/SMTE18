@@ -409,10 +409,22 @@ class Target {
         this.isWet = true;
 
         // บันทึกสถิติลง Firebase (หน่วงเวลาไว้เล็กน้อยเพื่อความเสถียร)
+        // บันทึกสถิติลง Firebase แบบ Single Transaction: รวมช่องอาวุธและยอดรวมเข้าด้วยกัน
         if (this.hitCooldown <= 0) {
             const safeNick = this.student.nickname.replace(/[.#$[\]]/g, "_");
             db.ref(`songkran_stats/${safeNick}/${type}`).transaction(c => (c || 0) + 1);
             db.ref(`songkran_stats/${safeNick}/total`).transaction(c => (c || 0) + 1);
+            db.ref(`songkran_stats/${safeNick}`).transaction((stats) => {
+                if (!stats) stats = { gun: 0, powder: 0, bowl: 0, total: 0 };
+                // เพิ่มแต้มตามประเภทอาวุธที่ใช้
+                if (type === 'gun') stats.gun = (stats.gun || 0) + 1;
+                else if (type === 'powder') stats.powder = (stats.powder || 0) + 1;
+                else if (type === 'bowl') stats.bowl = (stats.bowl || 0) + 1;
+                
+                // คำนวณช่องรวมให้เป็นผลรวมของอาวุธเสมอ
+                stats.total = (stats.gun || 0) + (stats.powder || 0) + (stats.bowl || 0);
+                return stats;
+            });
             this.hitCooldown = 20; 
         }
 
