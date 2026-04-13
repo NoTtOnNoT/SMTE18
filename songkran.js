@@ -635,7 +635,7 @@ document.getElementById('btn-leaderboard').onclick = () => {
     // เปลี่ยนจาก .once เป็น .on เพื่อให้แสดงผลแบบเรียลไทม์
     db.ref('songkran_stats').on('value', (snapshot) => {
         const data = snapshot.val();
-        if (!data) { list.innerHTML = "ยังไม่มีใครโดนสาดในตอนนี้!"; return; }
+        if (!data) { list.innerHTML = "ยังไม่มีใครโดนในตอนนี้!"; return; }
         
         // เรียงลำดับตาม Total (จากมากไปน้อย)
         const sorted = Object.entries(data).sort((a, b) => (b[1].total || 0) - (a[1].total || 0));
