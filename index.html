@@ -70,19 +70,6 @@
             </div>
         </div>
 
-        <div id="member-page" class="page">
-            <div class="star-field">
-                <div class="stars-container"></div>
-            </div>
-
-            <button class="back-btn" onclick="goToPage('home-page')"></button>
-            <div class="universe-wrapper" id="universe">
-                <div class="teacher" id="teacher-btn">
-                    <img src="member/std0.jpeg" alt="Teacher">
-                </div>
-            </div>
-        </div>
-
         <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
             <div class="modal-content" onclick="event.stopPropagation()">
                 <div class="modal-border-glow"></div>
@@ -108,36 +95,6 @@
                         <i class="fab fa-facebook-f"></i> FACEBOOK
                     </a>
                 </div>
-            </div>
-        </div>
-
-        <div id="vote-page" class="page">
-            <button class="back-btn" onclick="goToPage('home-page')"></button>
-
-            <div class="vote-header">
-                <h1 class="vote-title">🐔 Chick VOTE</h1>
-            </div>
-
-            <div class="vote-grid" id="vote-grid">
-            </div>
-
-            <button class="btn-result" onclick="openVoteModal()">
-                <span class="btn-icon">🏆</span>
-                <span class="btn-text">Leaderboard</span>
-                <div class="glow-shimmer"></div>
-            </button>
-        </div>
-
-        <div id="voteResultModal" class="modal-overlay"
-            onclick="closeVoteModal()">
-            <div class="modal-content" onclick="event.stopPropagation()">
-                <span class="close-modal"
-                    onclick="closeVoteModal()">&times;</span>
-                <h2 class="modal-name">ใครไก่สุด🐔</h2>
-                <div id="ranking-list"
-                    style="max-height: 50vh; overflow-y: auto;"></div>
-                <button class="nav-btn" style="margin-top:15px; width: 100%;"
-                    onclick="closeVoteModal()">CLOSE</button>
             </div>
         </div>
 
