@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMTE18 KC | Idea smtekc.com</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Playfair+Display:wght@700&display=swap');
+
+        :root {
+            --purple-primary: #4c1d95;
+            --gold-primary: #d4af37;
+            --black-bg: #0f172a;
+        }
+
+        body { 
+            background: var(--black-bg);
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 100%);
+        }
+
+        .dot {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            from { transform: translateY(0) rotate(0deg); }
+            to { transform: translateY(-100vh) rotate(360deg); }
+        }
+
+        .premium-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .gold-btn {
+            background: linear-gradient(135deg, #d4af37 0%, #fcf6ba 50%, #aa771c 100%);
+            color: #1e1b4b;
+            border-radius: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .gold-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+        }
+
+        .page {
+            transition: all 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .view-active #submitPage { opacity: 0; transform: scale(0.9) translateY(-50px); pointer-events: none; }
+        .view-active #viewPage { opacity: 1; transform: translateY(0); pointer-events: all; }
+        #viewPage { opacity: 0; transform: translateY(100px); pointer-events: none; }
+
+        .idea-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--gold-primary);
+            padding: 20px;
+            border-radius: 12px;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideIn 0.5s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .idea-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: scale(1.02);
+        }
+
+        .title-font { font-family: 'Playfair Display', serif; }
+
+        /* Custom Scrollbar */
+        .overflow-y-auto::-webkit-scrollbar { width: 5px; }
+        .overflow-y-auto::-webkit-scrollbar-thumb { background: var(--gold-primary); border-radius: 10px; }
+
+        .back-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    /* ทำให้เป็นวงกลม */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2000;
+    /* อยู่เหนือทุกอย่างรวมถึง Modal */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.back-btn:hover {
+    background: var(--primary-btn);
+    transform: scale(1.1) rotate(-10deg);
+    /* ส่ายนิดๆ ให้ดูมีลูกเล่น */
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.back-btn:active {
+    transform: scale(0.9);
+}
+
+/* เพิ่ม icon หรือตัวอักษรให้ดูดี */
+.back-btn::before {
+    content: '🏠';
+    /* ใช้ลูกศรแทนคำพูด */
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+    </style>
+</head>
+<body id="bodyMain">
+
+    <button class="back-btn"
+            onclick="window.location.href='index.html'"></button>
+
+    <div id="particles"></div>
+
+    <div id="submitPage" class="page items-center justify-center">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold title-font text-white mb-2">smtekc.com</h1>
+            <div class="h-1 w-32 bg-gradient-to-r from-transparent via-yellow-500 to-transparent mx-auto"></div>
+            <p class="text-gray-400 mt-4 tracking-widest uppercase text-xs">SMTE18 | Single Dad</p>
+        </div>
+
+        <div class="premium-card w-full max-w-lg p-8 space-y-6">
+            <textarea id="ideaInput" rows="4" 
+                class="w-full bg-transparent text-xl outline-none placeholder-gray-600 resize-none text-center border-b border-gray-800 focus:border-yellow-600 transition-colors"
+                placeholder="เสนอไอเดียของคุณได้ที่นี่..."></textarea>
+            
+            <button onclick="publishIdea()" id="submitBtn" class="gold-btn w-full py-4 text-lg">
+                Submit Proposal
+            </button>
+        </div>
+
+        <button onclick="togglePage()" class="mt-12 text-gray-500 hover:text-yellow-500 transition-all flex items-center gap-2 group">
+            <span>ดูข้อเสนอทั้งหมด</span>
+            <svg class="w-4 h-4 transform group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+    </div>
+
+    <div id="viewPage" class="page">
+        <div class="max-w-3xl mx-auto w-full pt-16 flex flex-col h-full">
+            <div class="flex justify-between items-end mb-12 border-b border-gray-800 pb-6 shrink-0">
+                <div>
+                    <h2 class="text-3xl font-bold title-font text-yellow-500 italic">Submissions</h2>
+                    <p class="text-xs text-gray-500 tracking-widest mt-1">LATEST ARCHIVES</p>
+                </div>
+                <button onclick="togglePage()" class="text-sm font-bold border border-gray-700 px-6 py-2 rounded-full hover:bg-white hover:text-black transition">BACK</button>
+            </div>
+
+            <div id="streamGrid" class="space-y-6 pb-20 overflow-y-auto pr-2">
+                <div class="text-center text-gray-600 py-10">กำลังโหลดข้อมูล...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Particles ---
+        const particleContainer = document.getElementById('particles');
+        for(let i = 0; i < 40; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            dot.style.left = Math.random() * 100 + '%';
+            dot.style.bottom = Math.random() * 100 + '%';
+            dot.style.width = Math.random() * 3 + 'px';
+            dot.style.height = dot.style.width;
+            dot.style.animationDelay = Math.random() * 20 + 's';
+            particleContainer.appendChild(dot);
+        }
+
+        // --- Firebase ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCypqytM6uaVvv6pO5epdc6G5RbmwUmsI",
+            authDomain: "lostitem-e0210.firebaseapp.com",
+            databaseURL: "https://lostitem-e0210-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "lostitem-e0210",
+            appId: "1:826088971995:web:a7f13032f76c77d3b136fe"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function togglePage() {
+            document.getElementById('bodyMain').classList.toggle('view-active');
+        }
+
+        async function publishIdea() {
+            const input = document.getElementById('ideaInput');
+            const btn = document.getElementById('submitBtn');
+            const text = input.value.trim();
+            if (!text) return;
+
+            btn.disabled = true;
+            btn.innerText = "Sending...";
+
+            try {
+                await database.ref('stars').push({
+                    text: text,
+                    timestamp: Date.now()
+                });
+                input.value = "";
+                togglePage();
+            } catch (e) {
+                alert("เกิดข้อผิดพลาด: " + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Submit Proposal";
+            }
+        }
+
+        // --- การดึงข้อมูลแบบปรับปรุงใหม่ ---
+        database.ref('stars').orderByChild('timestamp').on('value', snapshot => {
+            const grid = document.getElementById('streamGrid');
+            const data = [];
+            
+            snapshot.forEach(child => {
+                data.push(child.val());
+            });
+
+            // เรียงใหม่เอาล่าสุดขึ้นบนสุด
+            data.reverse();
+
+            if (data.length === 0) {
+                grid.innerHTML = `<div class="text-center text-gray-600 py-10 italic">ยังไม่มีข้อเสนอในขณะนี้...</div>`;
+                return;
+            }
+
+            // แสดงผลทั้งหมด
+            grid.innerHTML = data.map(item => {
+                const date = new Date(item.timestamp).toLocaleString('th-TH', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    day: '2-digit',
+                    month: 'short'
+                });
+                return `
+                    <div class="idea-item">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[10px] text-yellow-600 font-bold tracking-tighter uppercase">Proposal Received</span>
+                            <span class="text-[10px] text-gray-500 uppercase">${date}</span>
+                        </div>
+                        <p class="text-lg text-gray-200 leading-relaxed font-light">${item.text}</p>
+                    </div>
+                `;
+            }).join('');
+        });
+    </script>
+</body>
+</html>

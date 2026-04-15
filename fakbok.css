@@ -1,0 +1,678 @@
+:root {
+    --primary: #6366f1;
+    --secondary: #a855f7;
+    --accent: #ec4899;
+    --glass: rgba(255, 255, 255, 0.85);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Prompt', sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0f172a;
+    overflow-x: hidden;
+}
+
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #4f46e5, #9333ea, #db2777);
+    opacity: 0.4;
+    filter: blur(100px);
+    z-index: -1;
+}
+
+.container {
+    background: var(--glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 2rem;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s ease;
+}
+
+h1 {
+    font-size: 2.2rem;
+    margin: 0;
+    background: linear-gradient(to right, #4f46e5, #db2777);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+}
+
+.subtitle {
+    color: #4b5563;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.page {
+    display: none;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Input area */
+.input-wrapper {
+    position: relative;
+}
+
+textarea {
+    width: 100%;
+    height: 160px;
+    border-radius: 1.2rem;
+    border: 2px solid rgba(0, 0, 0, 0.05);
+    padding: 1.2rem;
+    font-family: inherit;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.5);
+    resize: none;
+    transition: 0.3s;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.char-count {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+/* Buttons */
+button {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+}
+
+.btn-send {
+    width: 100%;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    color: white;
+    padding: 1rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+}
+
+.btn-send:hover {
+    transform: scale(1.02);
+    filter: brightness(1.1);
+}
+
+.btn-link {
+    background: none;
+    color: var(--primary);
+    width: 100%;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.btn-back {
+    background: #f3f4f6;
+    color: #374151;
+    padding: 0.5rem 1rem;
+    border-radius: 0.8rem;
+    font-size: 0.85rem;
+}
+
+/* Message List */
+.view-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.message-list {
+    max-height: 450px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.msg-card {
+    background: white;
+    padding: 1.2rem;
+    border-radius: 1.2rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid var(--secondary);
+}
+
+.msg-time {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.msg-text {
+    color: #1f2937;
+    line-height: 1.5;
+    font-size: 0.95rem;
+    word-break: break-word;
+}
+
+.message-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.message-list::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 10px;
+}
+
+.message-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* เพิ่มเติมจากของเดิม */
+.select-wrapper {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.select-wrapper label {
+    display: block;
+    font-size: 0.85rem;
+    color: #6366f1;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+#recipientSelect {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid rgba(99, 102, 241, 0.2);
+    font-family: 'Prompt', sans-serif;
+    font-size: 1rem;
+    background: white;
+    outline: none;
+    cursor: pointer;
+}
+
+#recipientSelect:focus {
+    border-color: var(--primary);
+}
+
+.msg-to {
+    display: inline-block;
+    background: #eef2ff;
+    color: #4f46e5;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.msg-time {
+    font-size: 0.75rem;
+    color: #64748b;
+    /* สีเทาเข้มขึ้นเล็กน้อยให้สบายตา */
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.msg-time i {
+    color: var(--primary);
+    /* ใส่สีไอคอนนาฬิกาให้เข้ากับธีม */
+}
+
+/* ส่วนของปุ่ม Filter Chips */
+.filter-container {
+    margin: 15px 0;
+    text-align: left;
+}
+
+.filter-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 8px;
+    padding-left: 5px;
+}
+
+.filter-chips {
+    display: flex;
+    overflow-x: auto;
+    /* เลื่อนซ้ายขวาได้ */
+    gap: 8px;
+    padding: 5px 5px 15px 5px;
+    scrollbar-width: none;
+    /* ซ่อน scrollbar ใน Firefox */
+}
+
+.filter-chips::-webkit-scrollbar {
+    display: none;
+    /* ซ่อน scrollbar ใน Chrome/Safari */
+}
+
+.chip {
+    flex: 0 0 auto;
+    background: white;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    color: #4b5563;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.chip.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+}
+
+.chip:hover {
+    border-color: var(--primary);
+}
+
+/* ปุ่ม Filter เลขที่ (Chips) */
+.chip {
+    display: flex;
+    flex-direction: column;
+    /* วางรูปไว้บน ชื่อไว้ล่าง หรือจะแนวนอนก็ได้ */
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+    min-width: 80px;
+    background: white;
+    border-radius: 15px;
+    border: 2px solid transparent;
+    transition: 0.3s;
+}
+
+.chip img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.chip span {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.chip.active {
+    border-color: var(--primary);
+    background: #f0f7ff;
+}
+
+/* การ์ดข้อความ */
+.msg-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.msg-to {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 0.9rem;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* ส่วนที่จะเป็นรูปแชร์ (9:16 Feel) */
+.capture-card {
+    background: white;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.capture-card img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #6366f1;
+    margin-bottom: 15px;
+}
+
+.modal-recipient {
+    font-weight: 600;
+    color: #6366f1;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.modal-date {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-bottom: 20px;
+}
+
+.modal-body {
+    font-size: 1.1rem;
+    color: #333;
+    line-height: 1.5;
+    font-style: italic;
+    word-break: break-word;
+}
+
+.modal-footer {
+    margin-top: 30px;
+    font-size: 10px;
+    color: #ddd;
+}
+
+.btn-share-full {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background: #6366f1;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* การจัดวาง Modal */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.9);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 380px;
+    background: transparent;
+    animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ดีไซน์รูปที่จะแชร์ (9:16 Feel) */
+.story-card {
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    padding: 40px 25px;
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ลายจางๆ บนพื้นหลังรูป */
+.story-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.1) 1px, transparent 0);
+    background-size: 24px 24px;
+    pointer-events: none;
+}
+
+.story-inner {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px 20px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.profile-frame {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    padding: 5px;
+    background: linear-gradient(to bottom, #6366f1, #a855f7);
+    margin-bottom: 15px;
+}
+
+.profile-frame img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+}
+
+#modalTo {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+#modalTime {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 5px;
+}
+
+.message-quote {
+    margin: 30px 0;
+    color: #334155;
+    position: relative;
+}
+
+.message-quote i {
+    color: #6366f1;
+    opacity: 0.2;
+    font-size: 1.5rem;
+}
+
+#modalText {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    font-weight: 500;
+    font-style: italic;
+    margin: 10px 0;
+    word-break: break-word;
+}
+
+.story-footer {
+    margin-top: 20px;
+    border-top: 1px dashed #cbd5e1;
+    width: 100%;
+    padding-top: 15px;
+}
+
+.story-footer span {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #94a3b8;
+    font-weight: 700;
+}
+
+/* ปุ่มกดใน Modal */
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-cancel {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+}
+
+.btn-share-story {
+    flex: 2;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: white;
+    color: #6366f1;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.back-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    /* ทำให้เป็นวงกลม */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2000;
+    /* อยู่เหนือทุกอย่างรวมถึง Modal */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.back-btn:hover {
+    background: var(--primary-btn);
+    transform: scale(1.1) rotate(-10deg);
+    /* ส่ายนิดๆ ให้ดูมีลูกเล่น */
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.back-btn:active {
+    transform: scale(0.9);
+}
+
+/* เพิ่ม icon หรือตัวอักษรให้ดูดี */
+.back-btn::before {
+    content: '🏠';
+    /* ใช้ลูกศรแทนคำพูด */
+    font-size: 1.5rem;
+    font-weight: bold;
+}
