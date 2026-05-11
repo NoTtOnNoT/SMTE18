@@ -228,7 +228,7 @@ function closeVoteModal() {
 function initUniverse() {
     const universeContainer = document.getElementById('universe');
     if (!universeContainer) return;
-    const layerConfig = [{ radius: 20, count: 7, speed: 45 }, { radius: 32, count: 10, speed: 65 }, { radius: 44, count: 13, speed: 85 }];
+    const layerConfig = [{ radius: 20, count: 7, speed: 45 }, { radius: 32, count: 9, speed: 65 }, { radius: 44, count: 12, speed: 85 }];
     let totalCount = 1;
 
     layerConfig.forEach(layer => {
