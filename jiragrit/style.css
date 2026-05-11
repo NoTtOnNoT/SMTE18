@@ -1,0 +1,272 @@
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --glass: rgba(255, 255, 255, 0.2);
+  --glass-border: rgba(255, 255, 255, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* ห้ามเลื่อนหน้าจอหลัก */
+  font-family: "Kanit", sans-serif;
+  background: #000;
+}
+
+/* Hero Image Section */
+.hero-container {
+  position: relative;
+  height: 100dvh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hero-image-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+#teacher-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+.content-overlay {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px 20px;
+}
+
+/* Header */
+.header-section {
+  text-align: center;
+  color: white;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+.tag-light {
+  font-weight: 300;
+  opacity: 0.9;
+  letter-spacing: 1px;
+}
+
+/* Interaction */
+.interaction-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.view-feed-trigger {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  color: white;
+  padding: 12px 20px; /* เพิ่มพื้นที่กดให้กว้างขึ้นหน่อย */
+  border-radius: 15px;
+  cursor: pointer;
+  font-family: "Kanit";
+
+  /* แก้ไขส่วนนี้ */
+  display: flex;
+  flex-direction: row; /* จัดเรียงแนวนอน */
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* ระยะห่างระหว่างไอคอนกับข้อความ */
+  white-space: nowrap; /* บังคับไม่ให้ขึ้นบรรทัดใหม่ */
+  width: fit-content; /* ให้กว้างเท่ากับเนื้อหา */
+  margin: 0 auto; /* จัดให้อยู่กลางจอ */
+}
+
+.view-feed-trigger i {
+  font-size: 0.9rem;
+}
+
+.reaction-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.react-pill {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: "Kanit";
+  transition: 0.2s;
+}
+
+.react-pill:active {
+  transform: scale(0.9);
+}
+
+.input-container {
+  display: flex;
+  background: white;
+  border-radius: 30px;
+  padding: 5px 5px 5px 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+#user-message {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: "Kanit";
+  font-size: 1rem;
+}
+
+#submit-btn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  background: var(--primary-gradient);
+  color: white;
+  cursor: pointer;
+}
+
+/* Drawer (ถาดข้อความ) */
+.feed-drawer {
+  position: fixed;
+  bottom: -100%; /* ซ่อนไว้ใต้จอ */
+  left: 0;
+  width: 100%;
+  height: 80%;
+  background: white;
+  z-index: 100;
+  border-radius: 25px 25px 0 0;
+  transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.feed-drawer.open {
+  bottom: 0;
+}
+
+.drawer-handle {
+  width: 40px;
+  height: 5px;
+  background: #ddd;
+  border-radius: 10px;
+  margin: 0 auto 15px;
+  cursor: pointer;
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.scroll-feed {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.feed-item {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 12px;
+}
+
+.close-drawer {
+  background: #f1f3f5;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* ปรับคอมพิวเตอร์ให้ไม่กว้างเกินไป */
+@media (min-width: 851px) {
+  .feed-drawer {
+    width: 450px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.back-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  /* ทำให้เป็นวงกลม */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2000;
+  /* อยู่เหนือทุกอย่างรวมถึง Modal */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.back-btn:hover {
+  background: var(--primary-btn);
+  transform: scale(1.1) rotate(-10deg);
+  /* ส่ายนิดๆ ให้ดูมีลูกเล่น */
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.back-btn:active {
+  transform: scale(0.9);
+}
+
+/* เพิ่ม icon หรือตัวอักษรให้ดูดี */
+.back-btn::before {
+  content: "🏠";
+  /* ใช้ลูกศรแทนคำพูด */
+  font-size: 1.5rem;
+  font-weight: bold;
+}

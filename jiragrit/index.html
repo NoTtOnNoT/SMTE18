@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="th">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Jiragrit | Single Dad</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap"
+            rel="stylesheet">
+    </head>
+    <body>
+
+        <button class="back-btn"
+            onclick="window.location.href='/index.html'"></button>
+
+        <div class="hero-container">
+            <div class="hero-image-wrapper">
+                <img id="teacher-img"
+                    src="https://via.placeholder.com/1080x1920" alt="Teacher">
+                <div class="overlay"></div>
+            </div>
+
+            <div class="content-overlay">
+                <header class="header-section">
+                    <h1 id="teacher-name">กำลังโหลด...</h1>
+                    <p class="tag-light">ห้าทับหนึ่งลูกพ่อกฤต | Single Dad</p>
+                </header>
+
+                <footer class="interaction-section">
+
+                    <button class="view-feed-trigger" onclick="toggleDrawer()">
+                        <i class="fas fa-comment-alt"></i> ดูข้อความล่าสุด
+                        (<span id="msg-count">0</span>)
+                    </button>
+
+                    <div class="reaction-row">
+                        <button class="react-pill"
+                            onclick="addReaction('love')">❤️ <span
+                                id="count-love">0</span></button>
+                        <button class="react-pill"
+                            onclick="addReaction('haha')">😂 <span
+                                id="count-haha">0</span></button>
+                        <button class="react-pill"
+                            onclick="addReaction('wow')">😯 <span
+                                id="count-wow">0</span></button>
+                        <button class="react-pill"
+                            onclick="addReaction('sad')">😢 <span
+                                id="count-sad">0</span></button>
+                        <button class="react-pill"
+                            onclick="addReaction('angry')">😡 <span
+                                id="count-angry">0</span></button>
+                    </div>
+
+                    <div class="input-container">
+                        <input type="text" id="user-message"
+                            placeholder="อยากบอกอะไรครูจิรกฤ้ต..."
+                            autocomplete="off">
+                        <button id="submit-btn" onclick="sendMessage()"><i
+                                class="fas fa-paper-plane"></i></button>
+                    </div>
+                </footer>
+            </div>
+        </div>
+
+        <div id="feed-drawer" class="feed-drawer">
+            <div class="drawer-handle" onclick="toggleDrawer()"></div>
+            <div class="drawer-header">
+                <h3>เรื่องราวล่าสุด</h3>
+                <button class="close-drawer" onclick="toggleDrawer()"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div id="posts-feed" class="scroll-feed">
+            </div>
+        </div>
+
+        <script
+            src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+        <script
+            src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>

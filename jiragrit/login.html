@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS คงเดิมตามที่คุณให้มา */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .login-card h2 { color: #2d3436; margin-bottom: 10px; }
+        .login-card p { color: #636e72; font-size: 0.9rem; margin-bottom: 30px; }
+        .input-box { position: relative; margin-bottom: 20px; }
+        .input-box input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: 'Kanit';
+            outline: none;
+        }
+        .input-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #764ba2;
+        }
+        #btn-login {
+            width: 100%;
+            padding: 12px;
+            background: #764ba2;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        #btn-login:hover { opacity: 0.9; transform: translateY(-2px); }
+        .error-msg { color: #d63031; font-size: 0.85rem; margin-top: 15px; display: none; }
+        
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h2>เข้าสู่ระบบแอดมิน</h2>
+        <p>กรุณากรอกรหัสผ่านจากฐานข้อมูล</p>
+        
+        <div class="input-box">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="login-email" placeholder="Email แอดมิน">
+        </div>
+        
+        <div class="input-box">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="login-password" placeholder="รหัสผ่าน">
+        </div>
+
+        <button id="btn-login" onclick="handleLogin()">เข้าสู่ระบบ</button>
+        <div id="error-msg" class="error-msg">อีเมลหรือรหัสผ่านไม่ถูกต้อง</div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBA2GTSlUCcoXrF5KXYevyh33w32lqK1AY",
+            authDomain: "secret-31961.firebaseapp.com",
+            databaseURL: "https://secret-31961-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "secret-31961",
+            storageBucket: "secret-31961.firebasestorage.app",
+            messagingSenderId: "1088112105636",
+            appId: "1:1088112105636:web:5c153258e5499ade9bee31"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function handleLogin() {
+            const emailInput = document.getElementById('login-email').value;
+            const passInput = document.getElementById('login-password').value;
+            const error = document.getElementById('error-msg');
+
+            // ดึงข้อมูลจาก Path admin_account ใน Database
+            database.ref('admin_account').once('value').then((snapshot) => {
+                const adminData = snapshot.val();
+
+                if (adminData && adminData.email === emailInput && adminData.password === passInput) {
+                    // เก็บสถานะล็อกอินไว้ใน SessionStorage (ชั่วคราว) เพื่อให้หน้า admin เช็คได้
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    window.location.href = "admin.html";
+                } else {
+                    error.style.display = "block";
+                    error.innerText = "อีเมลหรือรหัสผ่านไม่ถูกต้อง!";
+                }
+            }).catch((err) => {
+                console.error(err);
+                alert("เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล");
+            });
+        }
+    </script>
+</body>
+</html>

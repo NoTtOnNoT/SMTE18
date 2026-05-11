@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Super Control | Management</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <h2>Admin Panel</h2>
+            <p>ระบบจัดการหลังบ้าน</p>
+            <hr>
+            <div class="quick-stats">
+                <div class="stat-box">
+                    <small>ข้อความทั้งหมด</small>
+                    <b id="total-msgs">0</b>
+                </div>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            <section class="admin-card">
+                <h3><i class="fas fa-user-circle"></i> จัดการโปรไฟล์คุณครู</h3>
+                <div class="input-form">
+                    <div class="input-group">
+                        <label>ชื่อคุณครู</label>
+                        <input type="text" id="edit-name" placeholder="ระบุชื่อ-นามสกุล">
+                    </div>
+                    <div class="input-group">
+                        <label>URL รูปภาพ (Direct Link)</label>
+                        <input type="text" id="edit-img" placeholder="วางลิงก์รูปภาพ .jpg หรือ .png">
+                    </div>
+                    <button class="btn-save" onclick="updateProfile()">อัปเดตข้อมูลหน้าเว็บ</button>
+                </div>
+            </section>
+
+            <section class="admin-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-heart"></i> ยอดความรู้สึกสะสม</h3>
+                    <button class="btn-reset" onclick="resetReactions()">รีเซ็ตยอดทั้งหมด</button>
+                </div>
+                <div class="reaction-summary">
+                    <div class="r-item">❤️ <span id="admin-love">0</span></div>
+                    <div class="r-item">😂 <span id="admin-haha">0</span></div>
+                    <div class="r-item">😯 <span id="admin-wow">0</span></div>
+                    <div class="r-item">😢 <span id="admin-sad">0</span></div>
+                    <div class="r-item">😡 <span id="admin-angry">0</span></div>
+                </div>
+            </section>
+
+            <section class="admin-card">
+                <h3><i class="fas fa-comments"></i> จัดการข้อความจากนักเรียน</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>เวลา</th>
+                                <th>ข้อความ</th>
+                                <th>จัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-feed-list">
+                            </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
