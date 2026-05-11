@@ -27,8 +27,6 @@ const studentList = [
     { fullname: "นายฐาปณวัชร์ แช่วุ่น", nickname: "วัชร์", ig: "w_t1353", fb: "@thapanawatsaewun", img: "member/std11.jpeg" },
     { fullname: "นายฐาปณวิชญ์ แช่วุ่น", nickname: "วิชญ์", ig: "w_t._.panawit", fb: "@thapn.wichy.ese.wun", img: "member/std12.jpeg" },
     { fullname: "นายธีระพิชัย ศุภณัฏฐ์ปทุม", nickname: "หมิง", ig: "seetabnueng", fb: "@thira.phichai.2025", img: "member/std13.jpeg" },
-    { fullname: "นายอัฟฟาน หลีเส็ม", nickname: "อัฟฟาน", ig: "qffqn_52", fb: "@affanlisem", img: "member/std14.jpeg" },
-    { fullname: "นางสาวธนัสถา แช่เจ่", nickname: "เม่ย", ig: "mxzis_", fb: "@thanattha.saeje", img: "member/std15.jpeg" },
     { fullname: "นางสาวหนึ่งฤทัย รัตนอุดม", nickname: "มี่", ig: "nmiiqxx_", fb: "@mi.mee.7545", img: "member/std16.jpeg" },
     { fullname: "นางสาวธมน ชาลีเปรี่ยม", nickname: "ธมน", ig: "seetabnueng", fb: "@thamon.chaleepaen", img: "member/std17.jpeg" },
     { fullname: "นางสาวปัณณิกา มัณฑะนานนท์", nickname: "ปัน", ig: "puuuuuuuuuuuu.n", fb: "@ppun.nika2", img: "member/std18.jpeg" },
