@@ -191,7 +191,7 @@ async function shareAsImage(cardId) {
             try {
                 await navigator.share({
                     files: [file],
-                    title: 'ฝากบอก 4/1',
+                    title: 'ฝากบอก 5/1',
                 });
             } catch (err) {
                 console.error("Share failed:", err);
